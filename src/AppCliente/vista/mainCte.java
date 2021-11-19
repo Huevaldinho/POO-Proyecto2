@@ -4,6 +4,8 @@ package AppCliente.vista;
 import AppCliente.conexion.Client;
 import AppCliente.conexion.Client;
 
+import javax.swing.*;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +18,8 @@ import AppCliente.conexion.Client;
  */
 public class mainCte {
     public static void main(String[] args) {
-        new Client();
+        //new Client();
+        JFrame ventanaPrincipal = new VentanaPrincipalCliente();
+        ventanaPrincipal.setVisible(true);
     }
  }

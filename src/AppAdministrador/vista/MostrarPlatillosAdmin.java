@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MostrarPlatillos extends JFrame {
+public class MostrarPlatillosAdmin extends JFrame {
     private JPanel panel;
     private JComboBox comboboxFiltros;
     private JButton botonAgregarPlatillo;
@@ -12,14 +12,14 @@ public class MostrarPlatillos extends JFrame {
     private JPanel panel1;
     private JTable tablaPlatillos;
 
-    public MostrarPlatillos() {
+    public MostrarPlatillosAdmin() {
         super("Platillos");
         setContentPane(panel);
         this.pack();
         botonAgregarPlatillo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame ventana = new AgregarPlatillo();
+                JFrame ventana = new AgregarPlatilloAdmin();
                 ventana.setVisible(true);
             }
         });

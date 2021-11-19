@@ -17,7 +17,7 @@ public class InicioSesionAdmin extends JFrame {
         botonIniciarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame ventana = new MenuAdministrador();
+                JFrame ventana = new MenuAdmin();
                 ventana.setVisible(true);
             }
         });

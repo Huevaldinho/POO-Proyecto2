@@ -2,10 +2,12 @@ package AppAdministrador.vista;
 
 import javax.swing.*;
 
-public class AgregarPlatillo extends JFrame {
+public class AgregarPlatilloAdmin extends JFrame {
     private JPanel panel;
+    private JTextField textoNombrePlatillo;
+    private JComboBox comboboxTipoPlatillo;
 
-    public AgregarPlatillo() {
+    public AgregarPlatilloAdmin() {
         super("Agregar Platillo");
         setContentPane(panel);
         setResizable(false);
