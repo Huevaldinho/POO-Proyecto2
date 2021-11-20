@@ -16,8 +16,8 @@ public class AdmUsuarios {
     public AdmUsuarios() {
     }
     
-    public boolean validarAdm(String login, String pwd){
-        return login.equals(IConstantes.userAdm) && pwd.equals(IConstantes.pwdAdm);
+    public boolean validarAdm(String pwd){
+        return pwd.equals(IConstantes.pwdAdm);
     }
     
 }

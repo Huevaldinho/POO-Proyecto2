@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 public class Controlador {
     
     private AdmUsuarios admUsr = new AdmUsuarios();
+    private AdmProductos admProducts = new AdmProductos();
 
     public Controlador() {
     }
@@ -24,17 +25,27 @@ public class Controlador {
             case SALUDAR: 
                 peticionRecibida.setDatosSalida("Saludos cliente " + peticionRecibida.getDatosEntrada() + " desde el servidor!");
                 break;
-            case INGRESAR: 
-                 String credenciales = (String) peticionRecibida.getDatosEntrada();
-                 String [] partes  = credenciales.split("-"); 
-                 boolean admOK = admUsr.validarAdm(partes[0], partes[1]);
-                 peticionRecibida.setDatosSalida(admOK);
+            case INGRESAR:
+                //revisa si la contra esta bien, utiliza AdmiUsuarios
+                 peticionRecibida.setDatosSalida(admUsr.validarAdm((String) peticionRecibida.getDatosEntrada()));
                 break;
             case VER_PRODUCTOS: 
                 break;
             case CONSULTAR_PRODUCTO: 
                 break;
-            case AGREGAR_CARRITO: 
+            case AGREGAR_CARRITO: //    ELIMINAR_PLATILO, MODIFICAR_PLATILLO, REALIZAR_PEDIDO
+                break;
+            case ELIMINAR_PLATILO:
+                break;
+            case MODIFICAR_PLATILLO:
+                break;
+            case REALIZAR_PEDIDO:
+                break;
+            case AGREGAR_PLATILLO:
+                //Debe usar AdmProductos - este mae tiene que revisar si ese platillo ya existe
+                //peticioRecibida.SetDatosSalida(admProducts.)
+                System.out.println("AGREGAR PLATILLO");
+                peticionRecibida.setDatosSalida(admProducts.insertarNuevoPlatillo(peticionRecibida));
                 break;
         }
         return peticionRecibida;

@@ -35,7 +35,7 @@ public class Server {
                 Socket skCliente = skServidor.accept(); // espera la activacion de una peticion
                 numCli++;
 
-                System.out.println("Atendiendo petición" + numCli + skCliente.getInetAddress());
+                System.out.println("Atendiendo petición: " + numCli + skCliente.getInetAddress());
 
                 // establece el canal de salida del servidor hacia el cliente
                 OutputStream auxSalida = skCliente.getOutputStream();
@@ -46,10 +46,10 @@ public class Server {
                 ObjectInputStream flujoEntrada = new ObjectInputStream(auxEntrada);
 
                 Peticion peticionRecibida = (Peticion) flujoEntrada.readObject();
-                System.out.println("peticion recibida" + peticionRecibida);
+                System.out.println("Peticion recibida: " + peticionRecibida);
 
                 // transfiere la petición a la logica de aplicación y esta le devuelve la respuesta en la misma peticion
-                peticionRecibida = accesoApp.procesarPeticion(peticionRecibida);
+                peticionRecibida = accesoApp.procesarPeticion(peticionRecibida);//Se va a Controlador para atender la peti
 
                 // servidor envia respuesta al cliente
                 flujoSalida.writeObject(peticionRecibida);

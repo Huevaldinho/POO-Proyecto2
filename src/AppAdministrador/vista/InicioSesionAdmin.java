@@ -1,5 +1,10 @@
 package AppAdministrador.vista;
 
+import AppAdministrador.conexion.ClienteAdmin;
+import AppCliente.conexion.Client;
+import general.Peticion;
+import general.TipoAccion;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +21,18 @@ public class InicioSesionAdmin extends JFrame {
         this.pack();
         botonIniciarSesion.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame ventana = new MenuAdmin();
-                ventana.setVisible(true);
+            public void actionPerformed(ActionEvent e) {//BOTON ACEPTAR
+                String myPass=String.valueOf(campoContrasena.getPassword());
+                Peticion peticionIniciarSesion = new Peticion(TipoAccion.INGRESAR,myPass);
+                ClienteAdmin conexion = new ClienteAdmin(peticionIniciarSesion);
+                boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
+                if (respuestaServidor==false){
+                    JOptionPane.showMessageDialog(null, "Ingrese el codigo correcto",
+                            "Contrasena incorrecta", JOptionPane.ERROR_MESSAGE);
+                }else {
+                    JFrame ventana = new MenuAdmin();
+                    ventana.setVisible(true);
+                }
             }
         });
     }
