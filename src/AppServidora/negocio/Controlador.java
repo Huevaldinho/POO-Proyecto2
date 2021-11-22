@@ -47,6 +47,9 @@ public class Controlador {
                 System.out.println("AGREGAR PLATILLO");
                 peticionRecibida.setDatosSalida(admProducts.insertarNuevoPlatillo(peticionRecibida));
                 break;
+            case BUSCAR_PLATILLO:
+                System.out.println("BUSCAR PLATILLO");
+                break;
         }
         return peticionRecibida;
     }

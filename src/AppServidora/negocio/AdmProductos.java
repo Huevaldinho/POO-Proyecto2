@@ -1,32 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package AppServidora.negocio;
-
 import general.Peticion;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  * @author ersolano
  */
-public class AdmProductos {
+public class AdmProductos{
+    private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
     AdmProductos (){}
-    public  boolean buscarPlatillo(){
-        return false;//RETURN OBJETO BINARIO (retorne la pos del platillo en el archivo o algo asi)
+    public  boolean buscarPlatillo(Peticion peti){
+        //Abrir archivo binario y buscar a peti
+
+        return admArchivos.buscarPlatillo(peti);
     }
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
-        //Toma el string que se le paso en la interfaz grafica (esta todoo pegado)
-        String datosPeti = (String) peti.getDatosEntrada();
-        //Separa las partes de la peticion
-        String [] partesPeti  = datosPeti.split("-");
-        //Buscar si ya existe ese platillo
-        //buscarPlatillo()
-        for (String i : partesPeti){//SI RECIBE BIE LA INFO
-            System.out.println("Dato peticion para insertar: "+i);
+
+        //Busca si ya existe el platillo
+        System.out.println("Se va a buscar peticion en archivos.");
+        if (!buscarPlatillo(peti)){//Como no existe lo mete al archivo
+            admArchivos.insertarPlatillo(peti);
+            return true;
         }
-        return true;
+        return false;
     }
     public boolean modificarPlatillo(){
         return  false;

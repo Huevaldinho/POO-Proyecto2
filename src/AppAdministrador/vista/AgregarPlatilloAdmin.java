@@ -1,13 +1,15 @@
 package AppAdministrador.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
-import AppCliente.conexion.Client;
 import general.Peticion;
 import general.TipoAccion;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class AgregarPlatilloAdmin extends JFrame {
     private JPanel panel;
@@ -17,9 +19,10 @@ public class AgregarPlatilloAdmin extends JFrame {
     private JTextField txtPiezasXPorcion;
     private JTextField txtTamanno;
     private JTextField txtCaloriasXPorcion;
-    private JLabel txtInsertarImagen;//Creo que tiene que ser otro tipo
     private JTextField txtCaloriasXPieza;
     private JTextField txtPrecio;
+    private String pathImagenSeleccionada;
+
     private JLabel lblPiezasXPorcion;
     private JLabel lblDescripcion;
     private JLabel lblTamano;
@@ -28,8 +31,10 @@ public class AgregarPlatilloAdmin extends JFrame {
     private JLabel lblNombrePlatillo;
     private JLabel lblCaloriasXPiezas;
     private JLabel lblPrecio;
-    private JLabel lblImagen;
+
     private JButton btnAceptar;
+    private JButton btnBuscarImagen;
+    private JLabel lblImagenPlato;
 
     public AgregarPlatilloAdmin() {
         super("Agregar Platillo");
@@ -44,6 +49,27 @@ public class AgregarPlatilloAdmin extends JFrame {
                 }else{
                     System.out.println("Error, algun campo esta malo");
                 }
+            }
+        });
+        btnBuscarImagen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {//BUSCAR IMAGEN EN DIRECTORIO
+                JFileChooser browseImageFile = new JFileChooser();
+                FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES",
+                        "png","jpg","jpeg");
+                browseImageFile.addChoosableFileFilter(fnef);
+
+                int showOpenDialogue = browseImageFile.showOpenDialog(null);
+
+                if (showOpenDialogue == JFileChooser.APPROVE_OPTION){
+
+                    File selectedImageFile = browseImageFile.getSelectedFile();
+                    String selectedImagePath = selectedImageFile.getAbsolutePath();
+                    pathImagenSeleccionada = selectedImagePath;
+                    //QUITAR JOPtionPane
+                    JOptionPane.showMessageDialog(null,selectedImagePath);
+                }
+
             }
         });
     }
@@ -65,7 +91,8 @@ public class AgregarPlatilloAdmin extends JFrame {
         //SI LLEGO AQUI ES PORQUE LOS DATOS SI ESTAN BIEn
         String textoPeticion = comboboxTipoPlatillo.getSelectedItem()+"-"+txtNombrePlatillo.getText()+"-"+
                 txtDescripcion.getText()+"-"+txtTamanno.getText()+"-"+txtPiezasXPorcion.getText()+"-"+
-                txtCaloriasXPorcion.getText()+"-"+ txtCaloriasXPieza.getText()+"-"+txtPrecio.getText();
+                txtCaloriasXPorcion.getText()+"-"+ txtCaloriasXPieza.getText()+"-"+txtPrecio.getText()+
+                "-"+pathImagenSeleccionada;
         System.out.println("DATOS INGRESADOS: "+textoPeticion);
         Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.AGREGAR_PLATILLO,textoPeticion);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
@@ -79,6 +106,5 @@ public class AgregarPlatilloAdmin extends JFrame {
                     "Error al agregar platillo", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
-
     }
 }

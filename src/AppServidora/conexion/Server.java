@@ -35,8 +35,6 @@ public class Server {
                 Socket skCliente = skServidor.accept(); // espera la activacion de una peticion
                 numCli++;
 
-                System.out.println("Atendiendo petición: " + numCli + skCliente.getInetAddress());
-
                 // establece el canal de salida del servidor hacia el cliente
                 OutputStream auxSalida = skCliente.getOutputStream();
                 ObjectOutputStream flujoSalida = new ObjectOutputStream(auxSalida);
