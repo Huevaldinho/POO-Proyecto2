@@ -29,9 +29,9 @@ public class AdmProductos{
         //Busca si ya existe el platillo
         System.out.println("Se va a buscar platillo en archivos.");
         if (!buscarPlatillo(peti)){//Como no existe lo mete al archivo
-            ((Platillo) peti.getDatosEntrada()).setId(); // no sirve :(
-            admArchivos.insertarPlatillo(peti);
-            platillos.add((Platillo) peti.getDatosEntrada());
+            ((Platillo) peti.getDatosEntrada()).setId();
+            admArchivos.insertarPlatillo(peti);//Agrega al archivo binario
+            platillos.add((Platillo) peti.getDatosEntrada());//Agrea al arrayList
             return true;
         }
         return false;
@@ -41,7 +41,7 @@ public class AdmProductos{
     }
 
     public void cargarPlatillos() {
-        platillos = admArchivos.cargarArchivosPlatillos();
+        platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
 
     public DefaultTableModel generarTablaPlatillos() {

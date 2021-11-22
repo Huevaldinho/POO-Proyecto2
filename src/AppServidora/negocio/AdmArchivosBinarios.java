@@ -5,7 +5,7 @@ import general.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class AdmArchivosBinarios {
+public class AdmArchivosBinarios implements  Serializable{
     //Estos atributos se utilizan para manejar los archivos binarios
     private File archivo;
     //Escritura
@@ -71,62 +71,89 @@ public class AdmArchivosBinarios {
         return  false;//True es que ya existe
     }
 
-    public ArrayList cargarArchivosPlatillos() {
+
+    public ArrayList cargarArchivosPlatillos(){
         System.out.println("Carga de platillos en memoria");
         ArrayList<Platillo> platillos = new ArrayList(); // array para almacenar platillos
         try {
-            System.out.println("llegue");
             archivo = new File("ArchivosBinarios/Entradas.dat");
             fis = new FileInputStream(archivo);
-            ois = new ObjectInputStream(fis);
-            Platillo obj = (Platillo) ois.readObject();
-            while (obj != null) {
-                platillos.add(obj);
-                obj = (Platillo) ois.readObject();
-            }
-            fis.close();
-            ois.close();
-
+            Platillo obj = null;
+            if (fis.available()>0){
+                ois = new ObjectInputStream(fis);
+                while (fis.available()>0) {
+                    obj = (Platillo) ois.readObject();//Este es el error, castea algo que ya esta casteado?
+                    platillos.add(obj);
+                    System.out.println("Platillo cargado: "+obj.toString());
+                }
+                fis.close();
+                ois.close();
+                System.out.println("\tCargo todas las entradas correctamente\n");
+            }else
+                System.out.println("Archivo Entradas no tiene nada");
 
             archivo = new File("ArchivosBinarios/PlatosFuertes.dat");
             fis = new FileInputStream(archivo);
-            ois = new ObjectInputStream(fis);
-            obj = (Platillo) ois.readObject();
-            while (obj != null) {
-                platillos.add(obj);
-                obj = (Platillo) ois.readObject();
+            if (fis.available()>0){
+                ois = new ObjectInputStream(fis);//Error
+                System.out.println("ois: "+ois.available());
+
+                while (fis.available()>0) {
+                    System.out.println("Entra al while");
+                    obj = (Platillo) ois.readObject();//Este es el error, castea algo que ya esta casteado?
+                    System.out.println("caste el objeto dentro del while");
+                    platillos.add(obj);
+                    System.out.println("Platillo cargado: "+obj.toString());
+                }
+                fis.close();
+                ois.close();
+                System.out.println("\tCargo todos los Platos fuetes correctamente\n");
+            }else{
+                System.out.println("Archivo Platos fuertes no tiene nada");
             }
-            fis.close();
-            ois.close();
+
 
             archivo = new File("ArchivosBinarios/Postres.dat");
             fis = new FileInputStream(archivo);
-            ois = new ObjectInputStream(fis);
-            obj = (Platillo) ois.readObject();
-            while (obj != null) {
-                platillos.add(obj);
+            if (fis.available()>0){
+                ois = new ObjectInputStream(fis);
                 obj = (Platillo) ois.readObject();
-            }
-            fis.close();
-            ois.close();
+                while (fis.available()>0) {
+                    platillos.add(obj);
+                    obj = (Platillo) ois.readObject();
+                }
+                fis.close();
+                ois.close();
+                System.out.println("\tCargo todos los Postres correctamente\n");
+
+            }else
+                System.out.println("Archivo Postres no tiene nada");
 
             archivo = new File("ArchivosBinarios/Bebidas.dat");
             fis = new FileInputStream(archivo);
-            ois = new ObjectInputStream(fis);
-            obj = (Platillo) ois.readObject();
-            while (obj != null) {
-                platillos.add(obj);
+            if (fis.available()>0){
+                ois = new ObjectInputStream(fis);
                 obj = (Platillo) ois.readObject();
-            }
-            fis.close();
-            ois.close();
+                while (fis.available()>0) {
+                    platillos.add(obj);
+                    obj = (Platillo) ois.readObject();
+                }
+                fis.close();
+                ois.close();
+                System.out.println("\tCargo todas las Bebidas correctamente\n");
+            }else
+                System.out.println("Archivo Bebidas no tiene nada");
+
         } catch (FileNotFoundException e) {
+            System.out.println("Error File not fund");
             e.printStackTrace();
             return null;
         } catch (IOException e) {
+            System.out.println("Error ioexception"+e.toString());
             e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e) {
+            System.out.println("Error class not found");
             e.printStackTrace();
             return null;
         }

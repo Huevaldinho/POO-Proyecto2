@@ -22,7 +22,7 @@ public class Controlador {
 
 
     public Controlador() {
-        //admProducts.cargarPlatillos();
+        admProducts.cargarPlatillos();
     }
     
     public Peticion procesarPeticion(Peticion peticionRecibida) {
