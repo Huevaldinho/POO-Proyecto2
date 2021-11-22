@@ -132,6 +132,7 @@ public class AgregarPlatilloAdmin extends JFrame {
             default:
                 throw new IllegalStateException("Unexpected value: " + tipoPlatillo);
         }
+        System.out.println("Nuevo platillo path:"+pathImagenSeleccionada);
         Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.AGREGAR_PLATILLO,nuevoPlatillo);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
         boolean respuestaServidor = (boolean) conexion.getRespuestaServer();

@@ -21,17 +21,22 @@ public class AdmProductos{
 
     public  boolean buscarPlatillo(Peticion peti){
         //Abrir archivo binario y buscar a peti
-
-        return admArchivos.buscarPlatillo(peti);
+        Platillo platillo = (Platillo) peti.getDatosEntrada();
+        for (Platillo actual: platillos){
+            if (platillo.equals(actual)){
+                System.out.println("Repetido: "+actual.toString()+"\n"+platillo.toString());
+                return true;
+            }
+        }
+        System.out.println("Es un plato nuevo");
+        return false;
     }
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
-
-        //Busca si ya existe el platillo
-        System.out.println("Se va a buscar platillo en archivos.");
-        if (!buscarPlatillo(peti)){//Como no existe lo mete al archivo
+        if (buscarPlatillo(peti)==false){//Como no existe lo mete al archivo
             ((Platillo) peti.getDatosEntrada()).setId();
-            admArchivos.insertarPlatillo(peti);//Agrega al archivo binario
-            platillos.add((Platillo) peti.getDatosEntrada());//Agrea al arrayList
+            platillos.add((Platillo) peti.getDatosEntrada());//Agrega el platillo al arrayList
+            admArchivos.insertarPlatillo(platillos);//Agrega al archivo binario
+            System.out.println("Se agrego platillo nuevo");
             return true;
         }
         return false;
@@ -43,7 +48,6 @@ public class AdmProductos{
     public void cargarPlatillos() {
         platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
-
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
                 "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Cantidad"};
