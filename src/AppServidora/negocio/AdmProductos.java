@@ -29,6 +29,7 @@ public class AdmProductos{
         //Busca si ya existe el platillo
         System.out.println("Se va a buscar platillo en archivos.");
         if (!buscarPlatillo(peti)){//Como no existe lo mete al archivo
+            ((Platillo) peti.getDatosEntrada()).setId(); // no sirve :(
             admArchivos.insertarPlatillo(peti);
             platillos.add((Platillo) peti.getDatosEntrada());
             return true;
@@ -39,13 +40,13 @@ public class AdmProductos{
         return  false;
     }
 
-    public ArrayList cargarPlatillos() {
-        return admArchivos.cargarArchivosPlatillos();
+    public void cargarPlatillos() {
+        platillos = admArchivos.cargarArchivosPlatillos();
     }
 
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
-                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio"};
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Cantidad"};
         DefaultTableModel dtm = new DefaultTableModel(encabezado, platillos.size());
 
         for (int i = 0; i < dtm.getRowCount(); i++) {
@@ -58,6 +59,7 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion(), i, 5);
             dtm.setValueAt(cte.getCaloriarPieza(), i, 6);
             dtm.setValueAt(cte.getPrecio(), i, 7);
+            dtm.setValueAt(0, i, 8);
         }
         return dtm;
     }

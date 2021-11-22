@@ -11,7 +11,6 @@ public class Bebida extends Platillo {
         super.piezasPorcion = piezasPorcion;
         super.caloriasPorcion = caloriasPorcion;
         super.caloriasPieza = caloriasPieza;
-        setId();
     }
 
     public void setId() {
@@ -20,7 +19,7 @@ public class Bebida extends Platillo {
             digitos = "00" + digitos;
         else
             digitos = "0" + digitos;
-        super.setId("BEB-" + digitos);
+        this.id = "BEB-" + digitos;
         contadorId++;
     }
 }

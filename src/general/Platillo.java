@@ -1,6 +1,7 @@
 package general;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public abstract class Platillo implements Serializable {
     protected String nombrePlatillo;
@@ -34,9 +35,7 @@ public abstract class Platillo implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = this.id + id;
-    }
+    public abstract void setId();
 
     public Double getPrecio() {
         return precio;
@@ -105,6 +104,9 @@ public abstract class Platillo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Platillo platillo = (Platillo) o;
-        return getId().equals(platillo.getId());
+        String nombre1 = getNombrePlatillo().toLowerCase();
+        String nombre2 = ((Platillo) o).getNombrePlatillo().toLowerCase();
+
+        return nombre1.equals(nombre2);
     }
 }

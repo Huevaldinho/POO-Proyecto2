@@ -18,7 +18,6 @@ public class VentanaPrincipalCliente extends JFrame {
     public VentanaPrincipalCliente() {
         super("Catalogo");
         setContentPane(panel);
-        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
 

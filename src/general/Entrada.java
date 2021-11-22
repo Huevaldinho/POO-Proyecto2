@@ -11,17 +11,17 @@ public class Entrada extends Platillo {
         super.piezasPorcion = piezasPorcion;
         super.caloriasPorcion = caloriasPorcion;
         super.caloriasPieza = caloriasPieza;
-        setId();
     }
 
     public void setId() {
+        System.out.println("set id");
         String digitos = String.valueOf(contadorId);
         if (digitos.length() == 1)
             digitos = "00" + digitos;
         else
             digitos = "0" + digitos;
-        super.setId("BEB-" + digitos);
+        super.id = "ENT-" + digitos;
         contadorId++;
-        super.setId("ENT-" + digitos);
+        System.out.println(super.id);
     }
 }

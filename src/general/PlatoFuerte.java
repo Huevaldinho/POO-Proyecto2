@@ -11,17 +11,16 @@ public class PlatoFuerte extends Platillo {
         super.piezasPorcion = piezasPorcion;
         super.caloriasPorcion = caloriasPorcion;
         super.caloriasPieza = caloriasPieza;
-        setId();
     }
 
+    @Override
     public void setId() {
         String digitos = String.valueOf(contadorId);
         if (digitos.length() == 1)
             digitos = "00" + digitos;
-        else
+        else if (digitos.length() == 2)
             digitos = "0" + digitos;
-        super.setId("BEB-" + digitos);
-        contadorId++;
-        super.setId("PRN-" + digitos);
+        this.id = "PRN-" + digitos;
+        contadorId++;;
     }
 }

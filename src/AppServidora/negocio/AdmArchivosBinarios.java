@@ -75,6 +75,7 @@ public class AdmArchivosBinarios {
         System.out.println("Carga de platillos en memoria");
         ArrayList<Platillo> platillos = new ArrayList(); // array para almacenar platillos
         try {
+            System.out.println("llegue");
             archivo = new File("ArchivosBinarios/Entradas.dat");
             fis = new FileInputStream(archivo);
             ois = new ObjectInputStream(fis);
@@ -85,6 +86,7 @@ public class AdmArchivosBinarios {
             }
             fis.close();
             ois.close();
+
 
             archivo = new File("ArchivosBinarios/PlatosFuertes.dat");
             fis = new FileInputStream(archivo);
