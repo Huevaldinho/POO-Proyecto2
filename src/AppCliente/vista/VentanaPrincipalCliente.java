@@ -1,6 +1,7 @@
 package AppCliente.vista;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,5 +29,9 @@ public class VentanaPrincipalCliente extends JFrame {
                 ventana.setVisible(true);
             }
         });
+    }
+
+    public void setTablaCatalogo(DefaultTableModel catalogo) {
+        tablaCatalogo.setModel(catalogo);
     }
 }

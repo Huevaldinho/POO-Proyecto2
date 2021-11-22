@@ -1,8 +1,7 @@
 package AppAdministrador.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
-import general.Peticion;
-import general.TipoAccion;
+import general.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,6 +34,7 @@ public class AgregarPlatilloAdmin extends JFrame {
     private JButton btnAceptar;
     private JButton btnBuscarImagen;
     private JLabel lblImagenPlato;
+    private JComboBox comboboxMedida;
 
     public AgregarPlatilloAdmin() {
         super("Agregar Platillo");
@@ -74,11 +74,16 @@ public class AgregarPlatilloAdmin extends JFrame {
         });
     }
     public boolean validarDatos(){
+        int piezasPorPorcion;
+        int caloriasPorPorcion;
+        int caloriasPorPieza;
+        double precio;
         try{//Solo se declaran para probobar el error
-            int piezasPorPorcion = Integer.parseInt(txtPiezasXPorcion.getText());
-            int caloriasPorPorcion = Integer.parseInt(txtCaloriasXPorcion.getText());
-            int caloriasPorPieza = Integer.parseInt(txtCaloriasXPieza.getText());
-            double precio = Double.parseDouble(txtPrecio.getText());
+            piezasPorPorcion = Integer.parseInt(txtPiezasXPorcion.getText());
+            caloriasPorPorcion = Integer.parseInt(txtCaloriasXPorcion.getText());
+            caloriasPorPieza = Integer.parseInt(txtCaloriasXPieza.getText());
+            precio = Double.parseDouble(txtPrecio.getText());
+            double tamannoPorcion = Double.parseDouble(txtTamanno.getText());
         }
         catch (NumberFormatException ex){
             ex.printStackTrace();
@@ -88,13 +93,46 @@ public class AgregarPlatilloAdmin extends JFrame {
         }
         //Orden Tipo Peticion, nombre, descripcion, tamanno, pieza por porcion, calorias por porcion,
         //calorias por pieza y precion (FALTA LA IMAGEN)
-        //SI LLEGO AQUI ES PORQUE LOS DATOS SI ESTAN BIEn
-        String textoPeticion = comboboxTipoPlatillo.getSelectedItem()+"-"+txtNombrePlatillo.getText()+"-"+
-                txtDescripcion.getText()+"-"+txtTamanno.getText()+"-"+txtPiezasXPorcion.getText()+"-"+
-                txtCaloriasXPorcion.getText()+"-"+ txtCaloriasXPieza.getText()+"-"+txtPrecio.getText()+
-                "-"+pathImagenSeleccionada;
-        System.out.println("DATOS INGRESADOS: "+textoPeticion);
-        Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.AGREGAR_PLATILLO,textoPeticion);
+        //SI LLEGO AQUI ES PORQUE LOS DATOS SI ESTAN BIEN
+        int tipoPlatillo = comboboxTipoPlatillo.getSelectedIndex();
+        Platillo nuevoPlatillo;
+        switch (tipoPlatillo) { // switch para crear objeto correspondiente
+            case 0: {
+                Entrada platillo = new Entrada(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                        txtDescripcion.getText(),
+                        txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
+                        caloriasPorPorcion, caloriasPorPieza);
+                nuevoPlatillo = platillo;
+                break;
+            }
+            case 1: {
+                PlatoFuerte platillo = new PlatoFuerte(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                        txtDescripcion.getText(),
+                        txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
+                        caloriasPorPorcion, caloriasPorPieza);
+                nuevoPlatillo = platillo;
+                break;
+            }
+            case 2: {
+                Postre platillo = new Postre(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                        txtDescripcion.getText(),
+                        txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
+                        caloriasPorPorcion, caloriasPorPieza);
+                nuevoPlatillo = platillo;
+                break;
+            }
+            case 3: {
+                Bebida platillo = new Bebida(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                        txtDescripcion.getText(),
+                        txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
+                        caloriasPorPorcion, caloriasPorPieza);
+                nuevoPlatillo = platillo;
+                break;
+            }
+            default:
+                throw new IllegalStateException("Unexpected value: " + tipoPlatillo);
+        }
+        Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.AGREGAR_PLATILLO,nuevoPlatillo);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
         boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
         if (respuestaServidor){

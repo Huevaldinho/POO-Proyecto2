@@ -1,10 +1,13 @@
 package AppServidora.negocio;
 import general.Peticion;
+import general.Platillo;
 
+import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,7 +15,10 @@ import java.io.Serializable;
  */
 public class AdmProductos{
     private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
+    private ArrayList<Platillo> platillos = new ArrayList();
+
     AdmProductos (){}
+
     public  boolean buscarPlatillo(Peticion peti){
         //Abrir archivo binario y buscar a peti
 
@@ -21,15 +27,39 @@ public class AdmProductos{
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
 
         //Busca si ya existe el platillo
-        System.out.println("Se va a buscar peticion en archivos.");
+        System.out.println("Se va a buscar platillo en archivos.");
         if (!buscarPlatillo(peti)){//Como no existe lo mete al archivo
             admArchivos.insertarPlatillo(peti);
+            platillos.add((Platillo) peti.getDatosEntrada());
             return true;
         }
         return false;
     }
     public boolean modificarPlatillo(){
         return  false;
+    }
+
+    public ArrayList cargarPlatillos() {
+        return admArchivos.cargarArchivosPlatillos();
+    }
+
+    public DefaultTableModel generarTablaPlatillos() {
+        String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, platillos.size());
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Platillo cte = platillos.get(i);
+            dtm.setValueAt(cte.getId(), i, 0);
+            dtm.setValueAt(cte.getNombrePlatillo(), i, 1);
+            dtm.setValueAt(cte.getDescripcion(), i, 2);
+            dtm.setValueAt(cte.getTamanoPorcion(), i, 3);
+            dtm.setValueAt(cte.getPiezasPorcion(), i, 4);
+            dtm.setValueAt(cte.getCaloriasPorcion(), i, 5);
+            dtm.setValueAt(cte.getCaloriarPieza(), i, 6);
+            dtm.setValueAt(cte.getPrecio(), i, 7);
+        }
+        return dtm;
     }
 
 }
