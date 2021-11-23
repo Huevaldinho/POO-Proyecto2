@@ -14,8 +14,10 @@ public class AdmArchivosBinarios implements  Serializable{
     //Lectura
     private FileInputStream fis;
     private ObjectInputStream ois;
+
     public AdmArchivosBinarios() {
     }
+
     public void insertarPlatillo(ArrayList<Platillo> arrayListPlatillos){
         archivo = new File("ArchivosBinarios/Platos.dat");
         if (!archivo.exists()) {
@@ -36,6 +38,7 @@ public class AdmArchivosBinarios implements  Serializable{
             e.printStackTrace();
         }
     }
+
     public ArrayList cargarArchivosPlatillos(){
         System.out.println("Carga de platillos en memoria");
         ArrayList<Platillo> platillos = new ArrayList(); // array para almacenar platillos
@@ -54,7 +57,6 @@ public class AdmArchivosBinarios implements  Serializable{
             System.out.println("Error cargando platos a memoria");
             e.printStackTrace();
         }
-
         return platillos;
     }
 }

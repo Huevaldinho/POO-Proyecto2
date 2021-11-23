@@ -1,6 +1,5 @@
 package AppServidora.negocio;
-import general.Peticion;
-import general.Platillo;
+import general.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
@@ -16,6 +15,10 @@ import java.util.ArrayList;
 public class AdmProductos{
     private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
     private ArrayList<Platillo> platillos = new ArrayList();
+    public static int CONTADOR_BEB = 0;
+    public static int CONTADOR_ENT = 0;
+    public static int CONTADOR_PRN = 0;
+    public static int CONTADOR_PTR = 0;
 
     AdmProductos (){}
 
@@ -31,6 +34,7 @@ public class AdmProductos{
         System.out.println("Es un plato nuevo");
         return false;
     }
+
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
         if (buscarPlatillo(peti)==false){//Como no existe lo mete al archivo
             ((Platillo) peti.getDatosEntrada()).setId();
@@ -41,6 +45,7 @@ public class AdmProductos{
         }
         return false;
     }
+
     public boolean modificarPlatillo(){
         return  false;
     }
@@ -48,9 +53,10 @@ public class AdmProductos{
     public void cargarPlatillos() {
         platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
+
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
-                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Cantidad"};
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Cantidad A Pedir"};
         DefaultTableModel dtm = new DefaultTableModel(encabezado, platillos.size());
 
         for (int i = 0; i < dtm.getRowCount(); i++) {
@@ -60,12 +66,25 @@ public class AdmProductos{
             dtm.setValueAt(cte.getDescripcion(), i, 2);
             dtm.setValueAt(cte.getTamanoPorcion(), i, 3);
             dtm.setValueAt(cte.getPiezasPorcion(), i, 4);
-            dtm.setValueAt(cte.getCaloriasPorcion(), i, 5);
-            dtm.setValueAt(cte.getCaloriarPieza(), i, 6);
-            dtm.setValueAt(cte.getPrecio(), i, 7);
+            dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
+            dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
+            dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
             dtm.setValueAt(0, i, 8);
         }
         return dtm;
     }
 
+    public void actualizarContadoresId() {
+        for (Platillo i : platillos) {
+            if (i instanceof Bebida) {
+                CONTADOR_BEB++;
+            } else if (i instanceof PlatoFuerte) {
+                CONTADOR_PRN++;
+            } else if (i instanceof Entrada) {
+                CONTADOR_ENT++;
+            } else {
+                CONTADOR_PTR++;
+            }
+        }
+    }
 }

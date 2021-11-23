@@ -10,5 +10,4 @@ public interface IConstantes {
     int PUERTO  = 5000;
     String userAdm = "admin";
     String pwdAdm = "1234";
-    
 }

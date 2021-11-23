@@ -23,6 +23,7 @@ public class Controlador {
 
     public Controlador() {
         admProducts.cargarPlatillos();
+        admProducts.actualizarContadoresId();
     }
     
     public Peticion procesarPeticion(Peticion peticionRecibida) {

@@ -6,7 +6,6 @@ import java.util.Locale;
 public abstract class Platillo implements Serializable {
     protected String nombrePlatillo;
     protected String rutaImagen;
-    protected static int contadorId = 0;
     protected String id;
     protected Double precio;
     protected String descripcion;

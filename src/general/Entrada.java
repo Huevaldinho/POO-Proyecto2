@@ -1,5 +1,8 @@
 package general;
 
+import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
+import static AppServidora.negocio.AdmProductos.CONTADOR_ENT;
+
 public class Entrada extends Platillo {
     public Entrada(String nombrePlatillo, String rutaImapathgen, Double precio, String descripcion, String tamannoPorcion,
                    int piezasPorcion, int caloriasPorcion, int caloriasPieza) {
@@ -14,14 +17,12 @@ public class Entrada extends Platillo {
     }
 
     public void setId() {
-        System.out.println("set id");
-        String digitos = String.valueOf(contadorId);
+        String digitos = String.valueOf(CONTADOR_ENT);
         if (digitos.length() == 1)
             digitos = "00" + digitos;
         else
             digitos = "0" + digitos;
         super.id = "ENT-" + digitos;
-        contadorId++;
-        System.out.println(super.id);
+        CONTADOR_ENT++;
     }
 }

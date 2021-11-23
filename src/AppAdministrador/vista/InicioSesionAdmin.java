@@ -18,6 +18,7 @@ public class InicioSesionAdmin extends JFrame {
         super("Inicio De Sesion");
         setContentPane(panel);
         setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         botonIniciarSesion.addActionListener(new ActionListener() {
             @Override
