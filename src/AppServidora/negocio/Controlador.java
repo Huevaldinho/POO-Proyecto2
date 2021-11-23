@@ -28,35 +28,44 @@ public class Controlador {
     
     public Peticion procesarPeticion(Peticion peticionRecibida) {
         switch (peticionRecibida.getAccion()){
-            case SALUDAR: 
-                peticionRecibida.setDatosSalida("Saludos cliente " + peticionRecibida.getDatosEntrada() + " desde el servidor!");
-                break;
-            case INGRESAR:
+            case INGRESAR: {
                 //revisa si la contra esta bien, utiliza AdmiUsuarios
-                 peticionRecibida.setDatosSalida(admUsr.validarAdm((String) peticionRecibida.getDatosEntrada()));
+                peticionRecibida.setDatosSalida(admUsr.validarAdm((String) peticionRecibida.getDatosEntrada()));
                 break;
-            case VER_PRODUCTOS: // genera la tabla de los productos
+            }
+            case VER_PRODUCTOS: { // genera la tabla de los productos
                 peticionRecibida.setDatosSalida(admProducts.generarTablaPlatillos());
                 break;
-            case CONSULTAR_PRODUCTO: 
+            }
+            case CONSULTAR_PRODUCTO: {
                 break;
-            case AGREGAR_CARRITO: //    ELIMINAR_PLATILO, MODIFICAR_PLATILLO, REALIZAR_PEDIDO
+            }
+            case AGREGAR_CARRITO: { //    ELIMINAR_PLATILO, MODIFICAR_PLATILLO, REALIZAR_PEDIDO
                 break;
-            case ELIMINAR_PLATILO:
+            }
+            case ELIMINAR_PLATILO: {
                 break;
-            case MODIFICAR_PLATILLO:
+            }
+            case MODIFICAR_PLATILLO: {
                 break;
-            case REALIZAR_PEDIDO:
+            }
+            case REALIZAR_PEDIDO: {
                 break;
-            case AGREGAR_PLATILLO:
+            }
+            case AGREGAR_PLATILLO: {
                 //Debe usar AdmProductos - este mae tiene que revisar si ese platillo ya existe
                 //peticioRecibida.SetDatosSalida(admProducts.)
                 System.out.println("AGREGAR PLATILLO");
                 peticionRecibida.setDatosSalida((admProducts.insertarNuevoPlatillo(peticionRecibida)));
                 break;
-            case BUSCAR_PLATILLO:
+            }
+            case BUSCAR_PLATILLO: {
                 System.out.println("BUSCAR PLATILLO");
                 break;
+            }
+            case FILTRAR_PRODUCTOS: {
+                peticionRecibida.setDatosSalida(admProducts.filtrarProductos(peticionRecibida));
+            }
         }
         return peticionRecibida;
     }

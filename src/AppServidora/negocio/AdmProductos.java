@@ -56,7 +56,7 @@ public class AdmProductos{
 
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
-                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Cantidad A Pedir"};
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
         DefaultTableModel dtm = new DefaultTableModel(encabezado, platillos.size());
 
         for (int i = 0; i < dtm.getRowCount(); i++) {
@@ -69,7 +69,27 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
             dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
-            dtm.setValueAt(0, i, 8);
+            dtm.setValueAt(0, i, 9);
+        }
+        return dtm;
+    }
+
+    public DefaultTableModel generarTablaPlatillos(ArrayList<Platillo> platillosFiltrados) {
+        String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, platillosFiltrados.size());
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Platillo cte = platillosFiltrados.get(i);
+            dtm.setValueAt(cte.getId(), i, 0);
+            dtm.setValueAt(cte.getNombrePlatillo(), i, 1);
+            dtm.setValueAt(cte.getDescripcion(), i, 2);
+            dtm.setValueAt(cte.getTamanoPorcion(), i, 3);
+            dtm.setValueAt(cte.getPiezasPorcion(), i, 4);
+            dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
+            dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
+            dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
+            dtm.setValueAt(0, i, 9);
         }
         return dtm;
     }
@@ -86,5 +106,22 @@ public class AdmProductos{
                 CONTADOR_PTR++;
             }
         }
+    }
+
+    public DefaultTableModel filtrarProductos(Peticion peti) {
+        int filtro = (int) peti.getDatosEntrada();
+        ArrayList<Platillo> platillosFiltrados = new ArrayList();
+        for (Platillo i : platillos) {
+            if (filtro == 1 && i instanceof Entrada) {
+                platillosFiltrados.add(i);
+            } else if (filtro == 2 && i instanceof PlatoFuerte) {
+                platillosFiltrados.add(i);
+            } else if (filtro == 3 && i instanceof Postre) {
+                platillosFiltrados.add(i);
+            } else if (filtro == 4 && i instanceof Bebida) {
+                platillosFiltrados.add(i);
+            }
+        }
+        return generarTablaPlatillos(platillosFiltrados);
     }
 }

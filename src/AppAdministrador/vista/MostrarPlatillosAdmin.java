@@ -1,5 +1,9 @@
 package AppAdministrador.vista;
 
+import AppCliente.conexion.Client;
+import general.Peticion;
+import general.TipoAccion;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -22,6 +26,23 @@ public class MostrarPlatillosAdmin extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana = new AgregarPlatilloAdmin();
                 ventana.setVisible(true);
+            }
+        });
+        botonFiltrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filtro = comboboxFiltros.getSelectedIndex();
+                if (filtro == 0) {
+                    Peticion peticion = new Peticion(TipoAccion.VER_PRODUCTOS, filtro);
+                    Client conexion = new Client(peticion);
+                    DefaultTableModel tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
+                    setTablaCatalogo(tablaProductos);
+                } else {
+                    Peticion peticion = new Peticion(TipoAccion.FILTRAR_PRODUCTOS, filtro);
+                    Client conexion = new Client(peticion);
+                    DefaultTableModel tablaFiltrada = (DefaultTableModel) conexion.getRespuestaServer();
+                    setTablaCatalogo(tablaFiltrada);
+                }
             }
         });
     }
