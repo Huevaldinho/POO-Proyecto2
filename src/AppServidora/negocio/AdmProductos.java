@@ -1,6 +1,7 @@
 package AppServidora.negocio;
 import general.*;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +22,7 @@ public class AdmProductos{
     public static int CONTADOR_PTR = 0;
 
     AdmProductos (){}
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para buscar platillo
@@ -41,6 +43,7 @@ public class AdmProductos{
         System.out.println("No se encontro ese platillo");
         return -1;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para insertar platillo
@@ -55,6 +58,7 @@ public class AdmProductos{
         }
         return false;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para modificar platillo
@@ -82,6 +86,7 @@ public class AdmProductos{
         admArchivos.insertarPlatillo(platillos);
         return  true;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para eliminar platillo
@@ -93,6 +98,7 @@ public class AdmProductos{
         admArchivos.insertarPlatillo(platillos);//Crea el nuevo archivo binario modificado
         return true;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * Descripcion: Solicita que cargen los platillos de los archivos binarios
@@ -100,6 +106,7 @@ public class AdmProductos{
     public void cargarPlatillos() {
         platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
@@ -119,22 +126,25 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
             dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
+            //ImageIcon imagen = new ImageIcon(cte.getRutaImagen());
+            //if (imagen != null)
+                //dtm.setValueAt(imagen, i, 8);
             dtm.setValueAt(0, i, 9);
         }
         return dtm;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * @param platillosFiltrados: ArrayList de platillos
      * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
      * */
-    public DefaultTableModel generarTablaPlatillos(ArrayList<Platillo> platillosFiltrados) {
+    public DefaultTableModel generarTablaPlatillosAdmin() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
-                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
-        DefaultTableModel dtm = new DefaultTableModel(encabezado, platillosFiltrados.size());
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, platillos.size());
 
         for (int i = 0; i < dtm.getRowCount(); i++) {
-            Platillo cte = platillosFiltrados.get(i);
+            Platillo cte = platillos.get(i);
             dtm.setValueAt(cte.getId(), i, 0);
             dtm.setValueAt(cte.getNombrePlatillo(), i, 1);
             dtm.setValueAt(cte.getDescripcion(), i, 2);
@@ -143,10 +153,10 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
             dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
-            dtm.setValueAt(0, i, 9);
         }
         return dtm;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * Descripcion: Actualiza los contadores de los tipos de platillos
@@ -163,26 +173,5 @@ public class AdmProductos{
                 CONTADOR_PTR++;
             }
         }
-    }
-    /**
-     * Descripcion: Genera un modelo de tabla filtrado por tipo de platillo
-     * @param peti: Lista de sismos que se mostraran en la interfaz.
-     * @return DefaultTableModel: Modelo de la tabla filtrado por tipo de platillo
-     */
-    public DefaultTableModel filtrarProductos(Peticion peti) {
-        int filtro = (int) peti.getDatosEntrada();
-        ArrayList<Platillo> platillosFiltrados = new ArrayList();
-        for (Platillo i : platillos) {
-            if (filtro == 1 && i instanceof Entrada) {
-                platillosFiltrados.add(i);
-            } else if (filtro == 2 && i instanceof PlatoFuerte) {
-                platillosFiltrados.add(i);
-            } else if (filtro == 3 && i instanceof Postre) {
-                platillosFiltrados.add(i);
-            } else if (filtro == 4 && i instanceof Bebida) {
-                platillosFiltrados.add(i);
-            }
-        }
-        return generarTablaPlatillos(platillosFiltrados);
     }
 }

@@ -45,6 +45,9 @@ public class EliminarPlatilloAdmin extends JFrame {
                     if (respuestaServidor){
                         JOptionPane.showMessageDialog(null,"Se elimino platillo nuevo al menu",
                                 "Platillo eliminado!", JOptionPane.INFORMATION_MESSAGE);
+                        peti = new Peticion(TipoAccion.VER_PRODUCTOS, null);
+                        conexion = new ClienteAdmin(peti);
+                        setTablaCatalogo((DefaultTableModel) conexion.getRespuestaServer());
                     }else{
                         JOptionPane.showMessageDialog(null,"NO se pudo eliminar el platillo al menu, intente de nuevo",
                                 "Error al  eliminar platillo", JOptionPane.INFORMATION_MESSAGE);

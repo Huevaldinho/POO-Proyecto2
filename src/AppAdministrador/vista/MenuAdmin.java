@@ -26,7 +26,7 @@ public class MenuAdmin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana = new MostrarPlatillosAdmin();
-                Peticion peticionMostrarProductos = new Peticion(TipoAccion.VER_PRODUCTOS, null);
+                Peticion peticionMostrarProductos = new Peticion(TipoAccion.VER_PRODUCTOS_ADMIN, null);
                 ClienteAdmin conexion = new ClienteAdmin(peticionMostrarProductos);
                 DefaultTableModel tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
                 ((MostrarPlatillosAdmin)ventana).setTablaCatalogo(tablaProductos); // casteo y seteo de tabla

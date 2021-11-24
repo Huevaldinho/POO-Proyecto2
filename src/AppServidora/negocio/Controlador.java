@@ -37,6 +37,10 @@ public class Controlador {
                 peticionRecibida.setDatosSalida(admProducts.generarTablaPlatillos());
                 break;
             }
+            case VER_PRODUCTOS_ADMIN: { // genera la tabla de los productos
+                peticionRecibida.setDatosSalida(admProducts.generarTablaPlatillosAdmin());
+                break;
+            }
             case CONSULTAR_PRODUCTO: {
                 break;
             }
@@ -63,9 +67,6 @@ public class Controlador {
             case BUSCAR_PLATILLO: {
                 peticionRecibida.setDatosSalida(admProducts.buscarPlatillo(peticionRecibida));
                 break;
-            }
-            case FILTRAR_PRODUCTOS: {
-                peticionRecibida.setDatosSalida(admProducts.filtrarProductos(peticionRecibida));
             }
         }
         return peticionRecibida;

@@ -5,25 +5,44 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <font name="Roboto Light" size="12"/>
+    </properties>
     <border type="none" title="Modificar Platillo"/>
     <children>
       <grid id="672d1" binding="panel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false">
+            <preferred-size width="1200" height="600"/>
+          </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-13619152"/>
+          <font name="Roboto Light" size="12"/>
+        </properties>
         <border type="none"/>
         <children>
-          <component id="8cd2e" class="javax.swing.JTable" binding="tablaPlatillos">
+          <scrollpane id="dca8f">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
-          </component>
+            <properties>
+              <font name="Roboto Light" size="12"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="8cd2e" class="javax.swing.JTable" binding="tablaPlatillos">
+                <constraints/>
+                <properties>
+                  <background color="-13619152"/>
+                  <font name="Roboto Light" size="12"/>
+                  <foreground color="-1"/>
+                  <gridColor color="-15195973"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
           <component id="d1c73" class="javax.swing.JButton" binding="btnModificar">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>

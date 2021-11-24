@@ -7,6 +7,7 @@ import general.TipoAccion;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,18 +35,7 @@ public class MostrarPlatillosAdmin extends JFrame {
         botonFiltrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboboxFiltros.getSelectedIndex();
-                if (filtro == 0) {
-                    Peticion peticion = new Peticion(TipoAccion.VER_PRODUCTOS, filtro);
-                    Client conexion = new Client(peticion);
-                    DefaultTableModel tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
-                    setTablaCatalogo(tablaProductos);
-                } else {
-                    Peticion peticion = new Peticion(TipoAccion.FILTRAR_PRODUCTOS, filtro);
-                    Client conexion = new Client(peticion);
-                    DefaultTableModel tablaFiltrada = (DefaultTableModel) conexion.getRespuestaServer();
-                    setTablaCatalogo(tablaFiltrada);
-                }
+                filtro(comboboxFiltros.getSelectedIndex(), tablaPlatillos);
             }
         });
         btnEliminarPlatillo.addActionListener(new ActionListener() {//Boton Eliminar
@@ -70,6 +60,29 @@ public class MostrarPlatillosAdmin extends JFrame {
                 ventanaModificar.setVisible(true);
             }
         });
+    }
+
+    /**
+     *
+     * @param tipoFiltro: Indica cual es el filtro elegido en el combobox segun el indice
+     * @param tabla: La tabla que contiene el catalogo de productos
+     */
+    public void filtro(int tipoFiltro, JTable tabla) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo = (DefaultTableModel) tabla.getModel();
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(modelo);
+        tabla.setRowSorter(trs);
+        if (tipoFiltro == 1) {
+            trs.setRowFilter(RowFilter.regexFilter("ENT", 0));
+        } else if (tipoFiltro == 2) {
+            trs.setRowFilter(RowFilter.regexFilter("PRN", 0));
+        } else if (tipoFiltro == 3) {
+            trs.setRowFilter(RowFilter.regexFilter("PTR", 0));
+        } else if (tipoFiltro == 4) {
+            trs.setRowFilter(RowFilter.regexFilter("BEB", 0));
+        } else {
+            trs.setRowFilter(RowFilter.regexFilter(".", 0)); // mostrar todo
+        }
     }
 
     public void setTablaCatalogo(DefaultTableModel catalogo) {
