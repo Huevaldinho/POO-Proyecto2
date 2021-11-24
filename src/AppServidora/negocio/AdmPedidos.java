@@ -14,6 +14,9 @@ import java.util.ArrayList;
 public class AdmPedidos {
     public static double costoExtraEmpaque = 25;
     public static double costoExtraEnvio = 2500;
+    private AdmProductos amdProducts;
+    private ArrayList<Object> pedidos = new ArrayList<>();
+    private int numeroPedido = 0;
 
     public AdmPedidos() {
     }
@@ -43,4 +46,19 @@ public class AdmPedidos {
             return array;
         }
     }
+    public boolean realizarNuevoPedido(Object peti){
+        //platillosPedidos=null esta vara no hace falta, con solo los codigos y numeros se puede hacer
+        ArrayList<Object> pedido;
+        pedido= (ArrayList<Object>) peti;
+        pedido = amdProducts.meterPedidoUsuario(peti);
+        //PEDIDO TRAE TODA LA INFO ACTUALIZADA
+        pedidos.add(pedido);
+        System.out.println(pedido);
+        return true;
+    }
+    public void setAmdProducts(AdmProductos admin){
+        this.amdProducts=admin;
+        System.out.println(this.amdProducts);
+    }
+
 }

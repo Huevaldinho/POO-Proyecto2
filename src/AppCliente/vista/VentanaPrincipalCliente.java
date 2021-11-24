@@ -58,7 +58,6 @@ public class VentanaPrincipalCliente extends JFrame {
                         JOptionPane.showMessageDialog(null, "Agregue al menos un platillo");
                     } else {
                         if (comboboxTipoPedido.getSelectedIndex() == 0) {
-                            System.out.println("si");
                             PedidoExpress pedidoCliente = new PedidoExpress(txtNombre.getText());
                             Peticion peticion = new Peticion(TipoAccion.GENERAR_CARRITO, idPlatillos);
                             Client conexion = new Client(peticion);

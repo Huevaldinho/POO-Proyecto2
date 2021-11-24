@@ -1,5 +1,6 @@
 package AppCliente.vista;
 
+import AppAdministrador.conexion.ClienteAdmin;
 import AppCliente.conexion.Client;
 import general.Pedido;
 import general.Peticion;
@@ -22,39 +23,48 @@ public class ResumenCompraCliente extends JFrame {
     private JLabel etiquetaCostoPedido;
     private JLabel etiquetaCostoAdicional;
     private JLabel etiquetaCaloriasTotales;
+    private ArrayList<Object> transferencia = new ArrayList<>();
+
 
     public ResumenCompraCliente(JComboBox tipoPedido, DefaultTableModel tm, ArrayList<Integer> cantidadPlatillos, Pedido pedidoCliente) {
         super("Resumen De Compra");
         setContentPane(panel);
         setTablaCarrito(tm, cantidadPlatillos);
         desglosePedido(pedidoCliente);
+        transferencia.add(cantidadPlatillos);
         this.pack();
 
-        botonConfirmar.addActionListener(new ActionListener() {
+        botonConfirmar.addActionListener(new ActionListener() {//CONFIRMAR
             @Override
             public void actionPerformed(ActionEvent e) {
                 int seleccion = tipoPedido.getSelectedIndex();
                 if (seleccion == 0) {
-                    JFrame ventana = new SolicitudDatosExpressCliente();
+                    JFrame ventana = new SolicitudDatosExpressCliente(transferencia);
                     ventana.setVisible(true);
                 } else if (seleccion == 1) {
+                    realizarPedido();//MANDAR A GUARDAR PEDIDO
                     JOptionPane.showMessageDialog(null, "Pedido Confirmado");
                     dispose();
                 } else {
-                    JFrame ventana = new SolicitudDatosRecogerCliente();
+                    JFrame ventana = new SolicitudDatosRecogerCliente(transferencia);
                     ventana.setVisible(true);
                 }
             }
         });
     }
-
+    public void realizarPedido(){
+        //GUARDA EL PEDIDO
+        System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
+        Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,transferencia);
+        ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
+        boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
+    }
     public void setTablaCarrito(DefaultTableModel tm, ArrayList<Integer> cantidadPlatillos) {
         for (int i = 0; i < tm.getRowCount(); i++) {
             tm.setValueAt(String.valueOf(cantidadPlatillos.get(i)), i, 9);
         }
         tablaResumenPedido.setModel(tm);
     }
-
     /**
      * Metodo para calcular el desglose del pedido
      * @param pedidoCliente:
@@ -79,7 +89,6 @@ public class ResumenCompraCliente extends JFrame {
         } else if (idPlatillos.size() == 0) {
             JOptionPane.showMessageDialog(null, "Agregue al menos un platillo");
         } else {
-            ArrayList<Object> transferencia = new ArrayList<>();
             transferencia.add(idPlatillos);
             transferencia.add(pedidoCliente);
             Peticion peticion = new Peticion(TipoAccion.DESGLOSE_PEDIDO, transferencia);

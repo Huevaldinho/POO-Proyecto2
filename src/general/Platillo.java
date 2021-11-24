@@ -13,6 +13,7 @@ public abstract class Platillo implements Serializable {
     protected int piezasPorcion;
     protected int caloriasPorcion;
     protected int caloriasPieza;
+    protected  int cantidadDeVecesSolicitado;
 
     public String getNombrePlatillo() {
         return nombrePlatillo;
@@ -85,7 +86,9 @@ public abstract class Platillo implements Serializable {
     public void setCaloriarPieza(int caloriarPieza) {
         this.caloriasPieza = caloriarPieza;
     }
-
+    public void aumentarPlatillo(int cantidad){
+        cantidadDeVecesSolicitado+=cantidad;
+    }
     @Override
     public String toString() {
         return "Platillo{" +
@@ -97,7 +100,8 @@ public abstract class Platillo implements Serializable {
                 ", tamannoPorcion='" + tamannoPorcion + '\'' +
                 ", piezasPorcion=" + piezasPorcion +
                 ", caloriasPorcion=" + caloriasPorcion +
-                ", caloriasPieza=" + caloriasPieza +
+                ", caloriasPieza=" + caloriasPieza + '\'' +
+                " cantidad de veces pedido="+cantidadDeVecesSolicitado+
                 '}';
     }
 

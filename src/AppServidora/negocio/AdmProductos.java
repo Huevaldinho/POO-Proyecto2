@@ -17,6 +17,7 @@ public class AdmProductos{
     private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
     private AdmPedidos admPedidos = new AdmPedidos();
     private ArrayList<Platillo> platillos = new ArrayList();
+
     public static int CONTADOR_BEB = 0;
     public static int CONTADOR_ENT = 0;
     public static int CONTADOR_PRN = 0;
@@ -44,7 +45,15 @@ public class AdmProductos{
         System.out.println("No se encontro ese platillo");
         return -1;
     }
-
+    public int buscarPorCodigo(String codigo){
+        int contador=0;
+        for (Platillo actual:platillos){
+            if (actual.getId().equals(codigo))
+                return contador;
+            contador++;
+        }
+        return -1;
+    }
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para insertar platillo
@@ -239,5 +248,42 @@ public class AdmProductos{
             }
         }
         return admPedidos.calcularDesglose(platillosSeleccionados, tipoPedido);
+    }
+    public ArrayList<Object> meterPedidoUsuario(Object pedidoEntrante){
+        ArrayList<Object> pedido;
+        pedido= (ArrayList<Object>) pedidoEntrante;
+        Platillo tmp= null;
+        ArrayList<String> platosPedidos = (ArrayList<String>) pedido.get(0);//SACA LOS CODIGOS
+        ArrayList<Integer> cantidadVecesPedido = (ArrayList<Integer>) pedido.get(2);//SACA LA CANTIDAD  DE PLATILLOS
+        int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
+        for (String actual:platosPedidos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
+            tmp = platillos.get(buscarPorCodigo(actual));
+            tmp.aumentarPlatillo(cantidadVecesPedido.get(pos));
+            pos++;
+        }
+        ArrayList<Pedido> pedidos = (ArrayList<Pedido>) pedido.get(1);
+        for (Pedido actual:pedidos){//PONE LA FECHA DE TODOS LOS PEDIDOS
+            actual.setFecha();
+        }
+        admArchivos.insertarPlatillo(platillos);//TIENE QUE GUARDAR EL ARCHIVO OTRA VEZ
+        pedido.set(0,platosPedidos);
+        pedido.set(1,pedidos);
+        pedido.set(2,cantidadVecesPedido);
+        return pedido;
+    }
+    //Consultas
+    public ArrayList<Platillo> TopTenMasPedidos(){
+        ArrayList<Platillo> ordenados= platillos;
+        //Ordenar
+        return null;
+    }
+    public ArrayList<Platillo> TopTenNuncaPedidos(){
+        return null;
+    }
+    public ArrayList<Integer> RelacionPorcentualTipoDePedido(){
+        //express
+        //sitio
+        //recoger
+        return null;
     }
 }

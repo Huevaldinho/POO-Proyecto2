@@ -12,6 +12,7 @@ public class Pedido implements Serializable {
     protected double costo;
     protected ArrayList<Platillo> platillosPedidos;
 
+
     public Pedido() {}
 
     public Pedido(String nombre) {
@@ -56,5 +57,16 @@ public class Pedido implements Serializable {
 
     public void setPlatillosPedidos(ArrayList<Platillo> platillosPedidos) {
         this.platillosPedidos = platillosPedidos;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "nombre='" + nombre + '\'' +
+                ", numeroPedido=" + numeroPedido +
+                ", fecha=" + fecha +
+                ", costo=" + costo +
+                ", platillosPedidos=" + platillosPedidos +
+                '}';
     }
 }

@@ -5,6 +5,7 @@
  */
 package AppServidora.negocio;
 
+import general.Pedido;
 import general.Peticion;
 import general.Platillo;
 
@@ -22,9 +23,12 @@ public class Controlador {
     private AdmPedidos admPedidos = new AdmPedidos();
 
 
+
     public Controlador() {
         admProducts.cargarPlatillos();
         admProducts.actualizarContadoresId();
+        admPedidos.setAmdProducts(this.admProducts);
+
     }
     
     public Peticion procesarPeticion(Peticion peticionRecibida) {
@@ -54,6 +58,7 @@ public class Controlador {
                 break;
             }
             case REALIZAR_PEDIDO: {
+                peticionRecibida.setDatosSalida(admPedidos.realizarNuevoPedido(peticionRecibida.getDatosEntrada()));
                 break;
             }
             case AGREGAR_PLATILLO: {
