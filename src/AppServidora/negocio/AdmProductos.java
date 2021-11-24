@@ -252,22 +252,25 @@ public class AdmProductos{
     public ArrayList<Object> meterPedidoUsuario(Object pedidoEntrante){
         ArrayList<Object> pedido;
         pedido= (ArrayList<Object>) pedidoEntrante;
+        System.out.println("PEDIDO ENTRANTE: "+pedido);
         Platillo tmp= null;
         ArrayList<String> platosPedidos = (ArrayList<String>) pedido.get(0);//SACA LOS CODIGOS
+        System.out.println("PLATOS  PEDIDOS: "+platosPedidos);
         ArrayList<Integer> cantidadVecesPedido = (ArrayList<Integer>) pedido.get(2);//SACA LA CANTIDAD  DE PLATILLOS
+        System.out.println("CANTIDAD VECES PEDIDO"+cantidadVecesPedido);
         int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
         for (String actual:platosPedidos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
             tmp = platillos.get(buscarPorCodigo(actual));
             tmp.aumentarPlatillo(cantidadVecesPedido.get(pos));
             pos++;
         }
-        ArrayList<Pedido> pedidos = (ArrayList<Pedido>) pedido.get(1);
-        for (Pedido actual:pedidos){//PONE LA FECHA DE TODOS LOS PEDIDOS
-            actual.setFecha();
-        }
+        Pedido pedidoSolo = (Pedido) pedido.get(1);
+        System.out.println("PEDIDO PURO: "+pedidoSolo);
+        pedidoSolo.setFecha();
+
         admArchivos.insertarPlatillo(platillos);//TIENE QUE GUARDAR EL ARCHIVO OTRA VEZ
         pedido.set(0,platosPedidos);
-        pedido.set(1,pedidos);
+        pedido.set(1,pedidoSolo);
         pedido.set(2,cantidadVecesPedido);
         return pedido;
     }
