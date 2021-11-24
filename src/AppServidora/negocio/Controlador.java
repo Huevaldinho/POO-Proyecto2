@@ -44,9 +44,11 @@ public class Controlador {
                 break;
             }
             case ELIMINAR_PLATILO: {
+                peticionRecibida.setDatosSalida(admProducts.eliminarPlatillo(peticionRecibida));
                 break;
             }
             case MODIFICAR_PLATILLO: {
+                peticionRecibida.setDatosSalida(admProducts.modificarPlatillo(peticionRecibida));
                 break;
             }
             case REALIZAR_PEDIDO: {
@@ -55,12 +57,11 @@ public class Controlador {
             case AGREGAR_PLATILLO: {
                 //Debe usar AdmProductos - este mae tiene que revisar si ese platillo ya existe
                 //peticioRecibida.SetDatosSalida(admProducts.)
-                System.out.println("AGREGAR PLATILLO");
                 peticionRecibida.setDatosSalida((admProducts.insertarNuevoPlatillo(peticionRecibida)));
                 break;
             }
             case BUSCAR_PLATILLO: {
-                System.out.println("BUSCAR PLATILLO");
+                peticionRecibida.setDatosSalida(admProducts.buscarPlatillo(peticionRecibida));
                 break;
             }
             case FILTRAR_PRODUCTOS: {

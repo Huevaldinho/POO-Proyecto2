@@ -1,6 +1,7 @@
 package AppAdministrador.vista;
 
 import AppCliente.conexion.Client;
+import AppCliente.vista.VentanaPrincipalCliente;
 import general.Peticion;
 import general.TipoAccion;
 
@@ -16,6 +17,8 @@ public class MostrarPlatillosAdmin extends JFrame {
     private JButton botonFiltrar;
     private JPanel panel1;
     private JTable tablaPlatillos;
+    private JButton btnModificarPlatillo;
+    private JButton btnEliminarPlatillo;
 
     public MostrarPlatillosAdmin() {
         super("Platillos");
@@ -43,6 +46,28 @@ public class MostrarPlatillosAdmin extends JFrame {
                     DefaultTableModel tablaFiltrada = (DefaultTableModel) conexion.getRespuestaServer();
                     setTablaCatalogo(tablaFiltrada);
                 }
+            }
+        });
+        btnEliminarPlatillo.addActionListener(new ActionListener() {//Boton Eliminar
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame ventanaPrincipal = new EliminarPlatilloAdmin();
+                Peticion peticionMostrarProductos = new Peticion(TipoAccion.VER_PRODUCTOS, null);
+                Client conexion = new Client(peticionMostrarProductos);
+                DefaultTableModel tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
+                ((EliminarPlatilloAdmin) ventanaPrincipal).setTablaCatalogo(tablaProductos);
+                ventanaPrincipal.setVisible(true);
+            }
+        });
+        btnModificarPlatillo.addActionListener(new ActionListener() {//BOTON MODIFICAR
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame ventanaModificar = new ModificarPlatilloAdmin();
+                Peticion peti = new Peticion(TipoAccion.VER_PRODUCTOS,null);
+                Client conexion  = new Client(peti);
+                DefaultTableModel  tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
+                ((ModificarPlatilloAdmin)ventanaModificar).setTablaCatalogo(tablaProductos);
+                ventanaModificar.setVisible(true);
             }
         });
     }

@@ -91,9 +91,7 @@ public class AgregarPlatilloAdmin extends JFrame {
                     "Debe ingresar datos correctos. Intente de nuevo.", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        //Orden Tipo Peticion, nombre, descripcion, tamanno, pieza por porcion, calorias por porcion,
-        //calorias por pieza y precion (FALTA LA IMAGEN)
-        //SI LLEGO AQUI ES PORQUE LOS DATOS SI ESTAN BIEN
+
         int tipoPlatillo = comboboxTipoPlatillo.getSelectedIndex();
         Platillo nuevoPlatillo;
         switch (tipoPlatillo) { // switch para crear objeto correspondiente
@@ -132,7 +130,6 @@ public class AgregarPlatilloAdmin extends JFrame {
             default:
                 throw new IllegalStateException("Unexpected value: " + tipoPlatillo);
         }
-        System.out.println("Nuevo platillo path:"+pathImagenSeleccionada);
         Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.AGREGAR_PLATILLO,nuevoPlatillo);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
         boolean respuestaServidor = (boolean) conexion.getRespuestaServer();

@@ -25,4 +25,31 @@ public class Entrada extends Platillo {
         super.id = "ENT-" + digitos;
         CONTADOR_ENT++;
     }
+    public void setIDModificar(String id){
+        super.id=id;
+    }
+    public void setNombreModificar(String nombre){
+        super.nombrePlatillo=nombre;
+    }
+    public void setDescripcionModificar(String descrip){
+        super.descripcion=descrip;
+    }
+    public void setRutaModificar(String modi){
+        super.rutaImagen=modi;
+    }
+    public void setPrecioModificar(String precio){
+        super.precio=Double.parseDouble(precio.substring(1));
+    }
+    public void setTamannoPorcioModificar (String tamano){
+        super.tamannoPorcion=tamano;
+    }
+    public void  setPiezaxPorcion(int p){
+        super.setPiezasPorcion(p);
+    }
+    public void setCaloriasXPorcion(int p){
+        super.caloriasPorcion=p;
+    }
+    public void setCaloriasXPieza(int p){
+        super.caloriasPieza=p;
+    }
 }

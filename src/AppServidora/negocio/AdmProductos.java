@@ -21,39 +21,89 @@ public class AdmProductos{
     public static int CONTADOR_PTR = 0;
 
     AdmProductos (){}
-
-    public  boolean buscarPlatillo(Peticion peti){
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param peti: Peticion para buscar platillo
+     * Descripcion: Busca un platillo en el arrayList de platillos
+     * */
+    public  int buscarPlatillo(Peticion peti){
         //Abrir archivo binario y buscar a peti
         Platillo platillo = (Platillo) peti.getDatosEntrada();
+        int contador=0;
         for (Platillo actual: platillos){
+            System.out.println("Actual: "+actual.toString());
             if (platillo.equals(actual)){
                 System.out.println("Repetido: "+actual.toString()+"\n"+platillo.toString());
-                return true;
+                return contador;
             }
+            contador++;
         }
-        System.out.println("Es un plato nuevo");
-        return false;
+        System.out.println("No se encontro ese platillo");
+        return -1;
     }
-
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param peti: Peticion para insertar platillo
+     * Descripcion: Inserta un platillo en el arrayList y en el archivo binario.
+     * */
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
-        if (buscarPlatillo(peti)==false){//Como no existe lo mete al archivo
+        if (buscarPlatillo(peti)==-1){//Como no existe lo mete al archivo
             ((Platillo) peti.getDatosEntrada()).setId();
             platillos.add((Platillo) peti.getDatosEntrada());//Agrega el platillo al arrayList
             admArchivos.insertarPlatillo(platillos);//Agrega al archivo binario
-            System.out.println("Se agrego platillo nuevo");
             return true;
         }
         return false;
     }
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param peti: Peticion para modificar platillo
+     * Descripcion: Modifica un platillo en el arrayList y en el archivo binario.
+    * */
+    public boolean modificarPlatillo(Peticion peti){
+        System.out.println("MODIFICAR PLATILLOS ");
+        int fila = (int) peti.getDatosSalida();
+        Platillo buscado = platillos.get(fila);
+        System.out.println("Buscado antes de modificar: "+platillos.get(fila).toString());
 
-    public boolean modificarPlatillo(){
-        return  false;
+        Platillo tmp = (Platillo) peti.getDatosEntrada();
+        //HACER CAMBIOS
+        buscado.setIdModificado(tmp.getId());
+        buscado.setNombrePlatillo(tmp.getNombrePlatillo());
+        buscado.setDescripcion(tmp.getDescripcion());
+        buscado.setTamanoPorcion(tmp.getTamanoPorcion());
+        buscado.setPiezasPorcion(tmp.getPiezasPorcion());
+        buscado.setCaloriasPorcion(tmp.getCaloriasPorcion());
+        buscado.setCaloriarPieza(tmp.getCaloriarPieza());
+        buscado.setPrecio(tmp.getPrecio());
+        buscado.setRutaImagen(tmp.getRutaImagen());
+        platillos.set(fila,buscado);
+        System.out.println("Buscado modificado: "+platillos.get(fila));
+        admArchivos.insertarPlatillo(platillos);
+        return  true;
     }
-
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param peti: Peticion para eliminar platillo
+     * Descripcion: Elimina un platillo en el arrayList y en el archivo binario.
+     * */
+    public boolean eliminarPlatillo(Peticion peti){
+        //Siempre lo encuentra porque toma el index de la tabla
+        platillos.remove((int)peti.getDatosEntrada());//Borra plato de memoria
+        admArchivos.insertarPlatillo(platillos);//Crea el nuevo archivo binario modificado
+        return true;
+    }
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Descripcion: Solicita que cargen los platillos de los archivos binarios
+     * */
     public void cargarPlatillos() {
         platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
-
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
+     * */
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
                 "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
@@ -73,7 +123,11 @@ public class AdmProductos{
         }
         return dtm;
     }
-
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param platillosFiltrados: ArrayList de platillos
+     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
+     * */
     public DefaultTableModel generarTablaPlatillos(ArrayList<Platillo> platillosFiltrados) {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
                 "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
@@ -93,7 +147,10 @@ public class AdmProductos{
         }
         return dtm;
     }
-
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Descripcion: Actualiza los contadores de los tipos de platillos
+     * */
     public void actualizarContadoresId() {
         for (Platillo i : platillos) {
             if (i instanceof Bebida) {
@@ -107,7 +164,11 @@ public class AdmProductos{
             }
         }
     }
-
+    /**
+     * Descripcion: Genera un modelo de tabla filtrado por tipo de platillo
+     * @param peti: Lista de sismos que se mostraran en la interfaz.
+     * @return DefaultTableModel: Modelo de la tabla filtrado por tipo de platillo
+     */
     public DefaultTableModel filtrarProductos(Peticion peti) {
         int filtro = (int) peti.getDatosEntrada();
         ArrayList<Platillo> platillosFiltrados = new ArrayList();

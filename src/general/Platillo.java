@@ -35,7 +35,9 @@ public abstract class Platillo implements Serializable {
     }
 
     public abstract void setId();
-
+    public void setIdModificado(String modi){
+        this.id=modi;
+    }
     public Double getPrecio() {
         return precio;
     }
