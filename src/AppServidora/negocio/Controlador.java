@@ -19,6 +19,7 @@ public class Controlador {
     
     private AdmUsuarios admUsr = new AdmUsuarios();
     private AdmProductos admProducts = new AdmProductos();
+    private AdmPedidos admPedidos = new AdmPedidos();
 
 
     public Controlador() {
@@ -44,9 +45,6 @@ public class Controlador {
             case CONSULTAR_PRODUCTO: {
                 break;
             }
-            case AGREGAR_CARRITO: { //    ELIMINAR_PLATILO, MODIFICAR_PLATILLO, REALIZAR_PEDIDO
-                break;
-            }
             case ELIMINAR_PLATILO: {
                 peticionRecibida.setDatosSalida(admProducts.eliminarPlatillo(peticionRecibida));
                 break;
@@ -66,6 +64,14 @@ public class Controlador {
             }
             case BUSCAR_PLATILLO: {
                 peticionRecibida.setDatosSalida(admProducts.buscarPlatillo(peticionRecibida));
+                break;
+            }
+            case GENERAR_CARRITO: {
+                peticionRecibida.setDatosSalida(admProducts.generarCarritoCompras(peticionRecibida));
+                break;
+            }
+            case DESGLOSE_PEDIDO: {
+                peticionRecibida.setDatosSalida(admProducts.extraerProductosPedido(peticionRecibida));
                 break;
             }
         }

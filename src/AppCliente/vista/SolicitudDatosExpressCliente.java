@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SolicitudDatosExpressCliente extends JFrame {
-    private JTextField textoNombre;
     private JTextField textoCelular;
     private JButton botonConfirmar;
     private JTextArea textoDireccion;

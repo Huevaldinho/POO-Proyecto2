@@ -1,10 +1,11 @@
 package general;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Pedido {
+public class Pedido implements Serializable {
     protected String nombre;
     protected int numeroPedido;
     protected Date fecha;

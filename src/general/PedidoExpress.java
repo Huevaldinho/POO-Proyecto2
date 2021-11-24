@@ -4,6 +4,9 @@ public class PedidoExpress extends Pedido{
     private String celular;
     private String direccion;
 
+    public PedidoExpress(String nombre) {
+        super.nombre = nombre;
+    }
     public PedidoExpress(String nombre, String celular, String direccion) {
         super(nombre);
         this.celular = celular;

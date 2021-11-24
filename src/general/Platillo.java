@@ -108,6 +108,6 @@ public abstract class Platillo implements Serializable {
         String nombre1 = getNombrePlatillo().toLowerCase();
         String nombre2 = ((Platillo) o).getNombrePlatillo().toLowerCase();
 
-        return nombre1.equals(nombre2);
+        return nombre1.equals(nombre2) || id.equals(((Platillo) o).getId());
     }
 }

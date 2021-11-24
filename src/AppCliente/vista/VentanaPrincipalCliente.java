@@ -1,8 +1,7 @@
 package AppCliente.vista;
 
 import AppCliente.conexion.Client;
-import general.Peticion;
-import general.TipoAccion;
+import general.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +9,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class VentanaPrincipalCliente extends JFrame {
@@ -22,6 +22,7 @@ public class VentanaPrincipalCliente extends JFrame {
     private JButton botonResumen;
     private JPanel panel1;
     private JPanel panel2;
+    private JTextField txtNombre;
 
     public VentanaPrincipalCliente() {
         super("Catalogo");
@@ -32,31 +33,63 @@ public class VentanaPrincipalCliente extends JFrame {
         botonResumen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame ventana = new ResumenCompraCliente(comboboxTipoPedido);
-                ventana.setVisible(true);
+                if (txtNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Ingrese su nombre");
+                } else {
+                    ArrayList<String> idPlatillos = new ArrayList();
+                    ArrayList<Integer> cantidadSeleccionada = new ArrayList<>();
+                    TableModel tm = tablaCatalogo.getModel();
+                    boolean banderaError = false;
+                    for (int i = 0; i < tm.getRowCount(); i++) {
+                        String celda = (String) tm.getValueAt(i, 9);
+                        int cantidad = Integer.parseInt(celda);
+                        if (cantidad < 0) {
+                            banderaError = true;
+                            break;
+                        } else if (cantidad > 0) {
+                            String id = (String) tm.getValueAt(i, 0);
+                            idPlatillos.add(id);
+                            cantidadSeleccionada.add(cantidad);
+                        }
+                    }
+                    if (banderaError) {
+                        JOptionPane.showMessageDialog(null, "Cantidad erronea, corrija el error");
+                    } else if (idPlatillos.size() == 0) {
+                        JOptionPane.showMessageDialog(null, "Agregue al menos un platillo");
+                    } else {
+                        if (comboboxTipoPedido.getSelectedIndex() == 0) {
+                            System.out.println("si");
+                            PedidoExpress pedidoCliente = new PedidoExpress(txtNombre.getText());
+                            Peticion peticion = new Peticion(TipoAccion.GENERAR_CARRITO, idPlatillos);
+                            Client conexion = new Client(peticion);
+                            JFrame ventana = new ResumenCompraCliente(comboboxTipoPedido,
+                                    (DefaultTableModel) conexion.getRespuestaServer(), cantidadSeleccionada, pedidoCliente);
+                            ventana.setVisible(true);
+                        } else if (comboboxTipoPedido.getSelectedIndex() == 1) {
+                            Pedido pedidoCliente = new Pedido(txtNombre.getText());
+                            Peticion peticion = new Peticion(TipoAccion.GENERAR_CARRITO, idPlatillos);
+                            Client conexion = new Client(peticion);
+                            JFrame ventana = new ResumenCompraCliente(comboboxTipoPedido,
+                                    (DefaultTableModel) conexion.getRespuestaServer(), cantidadSeleccionada, pedidoCliente);
+                            ventana.setVisible(true);
+                        } else {
+                            PedidoRecoger pedidoCliente = new PedidoRecoger(txtNombre.getText());
+                            Peticion peticion = new Peticion(TipoAccion.GENERAR_CARRITO, idPlatillos);
+                            Client conexion = new Client(peticion);
+                            JFrame ventana = new ResumenCompraCliente(comboboxTipoPedido,
+                                    (DefaultTableModel) conexion.getRespuestaServer(), cantidadSeleccionada, pedidoCliente);
+                            ventana.setVisible(true);
+                        }
+
+                    }
+                }
             }
         });
+
         botonFiltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 filtro(comboboxFiltro.getSelectedIndex(), tablaCatalogo);
-                /*
-                int filtro = comboboxFiltro.getSelectedIndex();
-                if (filtro == 0) {
-                    Peticion peticion = new Peticion(TipoAccion.VER_PRODUCTOS, filtro);
-                    Client conexion = new Client(peticion);
-                    DefaultTableModel tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
-                    setTablaCatalogo(tablaProductos);
-                    tablaCatalogo.setRowFilter();
-                } else {
-                    Peticion peticion = new Peticion(TipoAccion.FILTRAR_PRODUCTOS, filtro);
-                    Client conexion = new Client(peticion);
-                    DefaultTableModel tablaFiltrada = (DefaultTableModel) conexion.getRespuestaServer();
-                    setTablaCatalogo(tablaFiltrada);
-                }
-                filtroTabla.setRowFilter(RowFilter.regexFilter("ENT", 1));
-                */
-
             }
         });
         botonResumen.addActionListener(new ActionListener() {

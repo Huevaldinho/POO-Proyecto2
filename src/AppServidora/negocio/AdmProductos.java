@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class AdmProductos{
     private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
+    private AdmPedidos admPedidos = new AdmPedidos();
     private ArrayList<Platillo> platillos = new ArrayList();
     public static int CONTADOR_BEB = 0;
     public static int CONTADOR_ENT = 0;
@@ -129,7 +130,35 @@ public class AdmProductos{
             //ImageIcon imagen = new ImageIcon(cte.getRutaImagen());
             //if (imagen != null)
                 //dtm.setValueAt(imagen, i, 8);
-            dtm.setValueAt(0, i, 9);
+            dtm.setValueAt("0", i, 9);
+        }
+        return dtm;
+    }
+
+    /**
+     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * @param platillosSeleccionados: Son los platillos seleccionados por el usuario
+     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
+     * */
+    public DefaultTableModel generarTablaPlatillos(ArrayList<Platillo> platillosSeleccionados) {
+        String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
+                "Piezas Por Porción", "Calorías En 1 Porción", "Calorías Por Pieza", "Precio", "Imagen", "Cantidad A Pedir"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, platillosSeleccionados.size());
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Platillo cte = platillosSeleccionados.get(i);
+            dtm.setValueAt(cte.getId(), i, 0);
+            dtm.setValueAt(cte.getNombrePlatillo(), i, 1);
+            dtm.setValueAt(cte.getDescripcion(), i, 2);
+            dtm.setValueAt(cte.getTamanoPorcion(), i, 3);
+            dtm.setValueAt(cte.getPiezasPorcion(), i, 4);
+            dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
+            dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
+            dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
+            //ImageIcon imagen = new ImageIcon(cte.getRutaImagen());
+            //if (imagen != null)
+            //dtm.setValueAt(imagen, i, 8);
+            dtm.setValueAt("0", i, 9);
         }
         return dtm;
     }
@@ -173,5 +202,42 @@ public class AdmProductos{
                 CONTADOR_PTR++;
             }
         }
+    }
+
+    /**
+     *
+     * @param peti: Peticion por parte del cliente
+     * @return retorna el modelo de la tabla con el carrito de compras
+     */
+    public DefaultTableModel generarCarritoCompras(Peticion peti) {
+        ArrayList<Platillo> platillosSeleccionados = new ArrayList<>();
+        for (String i : (ArrayList<String>) peti.getDatosEntrada()) {
+            for (Platillo j : platillos) {
+                if (i.equals(j.getId())) {
+                    platillosSeleccionados.add(j);
+                }
+            }
+        }
+        return generarTablaPlatillos(platillosSeleccionados);
+    }
+
+    /**
+     * Metodo para extraer los productos del carrito de compras
+     * @param peti: Es la peticion del cliente hacia el servidor
+     * @return retorna un array de datos double
+     */
+    public double[] extraerProductosPedido(Peticion peti) {
+        ArrayList<Platillo> platillosSeleccionados = new ArrayList<>();
+        ArrayList<Object> transferencia = (ArrayList<Object>) peti.getDatosEntrada();
+        ArrayList<String> listaId = (ArrayList<String>) transferencia.get(0);
+        Pedido tipoPedido = (Pedido) transferencia.get(1);
+        for (String i : listaId) {
+            for (Platillo j : platillos) {
+                if (i.equals(j.getId())) {
+                    platillosSeleccionados.add(j);
+                }
+            }
+        }
+        return admPedidos.calcularDesglose(platillosSeleccionados, tipoPedido);
     }
 }

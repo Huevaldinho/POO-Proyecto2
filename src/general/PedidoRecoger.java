@@ -4,6 +4,9 @@ public class PedidoRecoger extends Pedido{
     private String nombreRecoge;
     private String celular;
 
+    public PedidoRecoger(String nombre) {
+        super.nombre = nombre;
+    }
     public PedidoRecoger(String nombre, String nombreRecoge, String celular) {
         super(nombre);
         this.nombreRecoge = nombreRecoge;

@@ -8,6 +8,7 @@
     <properties>
       <background color="-13619152"/>
       <font name="Roboto Light" size="12"/>
+      <preferredSize width="1200" height="575"/>
     </properties>
     <border type="none"/>
     <children>
@@ -108,7 +109,7 @@
               <text value="Confirmar"/>
             </properties>
           </component>
-          <component id="339fc" class="javax.swing.JLabel">
+          <component id="339fc" class="javax.swing.JLabel" binding="etiquetaCostoTotal">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -118,7 +119,7 @@
               <text value="0"/>
             </properties>
           </component>
-          <component id="86519" class="javax.swing.JLabel">
+          <component id="86519" class="javax.swing.JLabel" binding="etiquetaCostoPedido">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -128,7 +129,7 @@
               <text value="0"/>
             </properties>
           </component>
-          <component id="2aff1" class="javax.swing.JLabel">
+          <component id="2aff1" class="javax.swing.JLabel" binding="etiquetaCostoAdicional">
             <constraints>
               <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -138,7 +139,7 @@
               <text value="0"/>
             </properties>
           </component>
-          <component id="84fc1" class="javax.swing.JLabel">
+          <component id="84fc1" class="javax.swing.JLabel" binding="etiquetaCaloriasTotales">
             <constraints>
               <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
