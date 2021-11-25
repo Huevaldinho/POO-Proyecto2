@@ -58,7 +58,7 @@ public class Controlador {
                 break;
             }
             case REALIZAR_PEDIDO: {
-                peticionRecibida.setDatosSalida(admPedidos.realizarNuevoPedido(peticionRecibida.getDatosEntrada()));
+                peticionRecibida.setDatosSalida(admPedidos.realizarNuevoPedido((Pedido) peticionRecibida.getDatosEntrada()));
                 break;
             }
             case AGREGAR_PLATILLO: {

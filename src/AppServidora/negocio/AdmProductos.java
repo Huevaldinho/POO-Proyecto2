@@ -247,33 +247,41 @@ public class AdmProductos{
                 }
             }
         }
+        
         return admPedidos.calcularDesglose(platillosSeleccionados, tipoPedido);
     }
-    public ArrayList<Object> meterPedidoUsuario(Object pedidoEntrante){
+    public void guardarPlatillosCantidades(Object pedidoEntrante){
         ArrayList<Object> pedido;
         pedido= (ArrayList<Object>) pedidoEntrante;
-        System.out.println("PEDIDO ENTRANTE: "+pedido);
-        Platillo tmp= null;
         ArrayList<String> platosPedidos = (ArrayList<String>) pedido.get(0);//SACA LOS CODIGOS
-        System.out.println("PLATOS  PEDIDOS: "+platosPedidos);
         ArrayList<Integer> cantidadVecesPedido = (ArrayList<Integer>) pedido.get(2);//SACA LA CANTIDAD  DE PLATILLOS
-        System.out.println("CANTIDAD VECES PEDIDO"+cantidadVecesPedido);
-        int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
+        Pedido pedidoSolo = (Pedido) pedido.get(1);
+        Platillo tmp=null;
+        ArrayList<Platillo> tmpPlatillos = new ArrayList<>();
         for (String actual:platosPedidos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
             tmp = platillos.get(buscarPorCodigo(actual));
-            tmp.aumentarPlatillo(cantidadVecesPedido.get(pos));
+            tmpPlatillos.add(tmp);//lo mete al array
+        }
+        pedidoSolo.setCantidadPlatillosPedidos(cantidadVecesPedido);
+        pedidoSolo.setPlatillosPedidos(tmpPlatillos);
+    }
+    public Pedido meterPedidoUsuario(Pedido pedidoEntrante){
+
+        Platillo tmp= null;
+        int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
+        ArrayList<Platillo> tmpPlatillos = pedidoEntrante.getPlatillosPedidos();
+        for (Platillo actual:tmpPlatillos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
+            tmp = platillos.get(buscarPorCodigo(actual.getId()));
+            tmp.aumentarPlatillo(pedidoEntrante.getCantidadPlatillosPedidos().get(pos));//aumenta en el total
             pos++;
         }
-        Pedido pedidoSolo = (Pedido) pedido.get(1);
-        pedidoSolo.setFecha();
+        pedidoEntrante.setFecha();
+
         //Set costo
 
         admArchivos.insertarPlatillo(platillos);//TIENE QUE GUARDAR EL ARCHIVO OTRA VEZ
-        pedido.set(0,platosPedidos);
-        pedido.set(1,pedidoSolo);
-        pedido.set(2,cantidadVecesPedido);
 
-        return pedido;
+        return pedidoEntrante;
     }
     //Consultas
     public ArrayList<Platillo> TopTenMasPedidos(){

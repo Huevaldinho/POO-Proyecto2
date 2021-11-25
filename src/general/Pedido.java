@@ -11,6 +11,7 @@ public class Pedido implements Serializable {
     protected Date fecha;
     protected double costo;
     protected ArrayList<Platillo> platillosPedidos;
+    protected  ArrayList<Integer> cantidadPlatillosPedidos = new ArrayList<>();
 
 
     public Pedido() {}
@@ -22,7 +23,12 @@ public class Pedido implements Serializable {
     public String getNombre() {
         return nombre;
     }
-
+    public void setCantidadPlatillosPedidos(ArrayList<Integer> lista){
+        cantidadPlatillosPedidos=lista;
+    }
+    public  ArrayList<Integer> getCantidadPlatillosPedidos(){
+        return cantidadPlatillosPedidos;
+    }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

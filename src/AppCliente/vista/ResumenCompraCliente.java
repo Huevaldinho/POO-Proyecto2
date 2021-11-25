@@ -24,6 +24,8 @@ public class ResumenCompraCliente extends JFrame {
     private JLabel etiquetaCostoAdicional;
     private JLabel etiquetaCaloriasTotales;
     private ArrayList<Object> transferencia = new ArrayList<>();
+    private ArrayList<Integer> cantidadesPlatillos=new ArrayList<>();
+
 
 
     public ResumenCompraCliente(JComboBox tipoPedido, DefaultTableModel tm, ArrayList<Integer> cantidadPlatillos, Pedido pedidoCliente) {
@@ -31,7 +33,8 @@ public class ResumenCompraCliente extends JFrame {
         setContentPane(panel);
         setTablaCarrito(tm, cantidadPlatillos);
         desglosePedido(pedidoCliente);
-        transferencia.add(cantidadPlatillos);
+        this.cantidadesPlatillos=cantidadPlatillos;
+
         this.pack();
 
         botonConfirmar.addActionListener(new ActionListener() {//CONFIRMAR
@@ -42,7 +45,7 @@ public class ResumenCompraCliente extends JFrame {
                     JFrame ventana = new SolicitudDatosExpressCliente(transferencia);
                     ventana.setVisible(true);
                 } else if (seleccion == 1) {
-                    realizarPedido();//MANDAR A GUARDAR PEDIDO
+                    realizarPedido(pedidoCliente );//MANDAR A GUARDAR PEDIDO
                     JOptionPane.showMessageDialog(null, "Pedido Confirmado");
                     dispose();
                 } else {
@@ -52,10 +55,10 @@ public class ResumenCompraCliente extends JFrame {
             }
         });
     }
-    public void realizarPedido(){
+    public void realizarPedido(Pedido pedidoCliente){
         //GUARDA EL PEDIDO
         System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
-        Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,transferencia);
+        Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,pedidoCliente);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
         boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
     }
@@ -91,13 +94,20 @@ public class ResumenCompraCliente extends JFrame {
         } else {
             transferencia.add(idPlatillos);
             transferencia.add(pedidoCliente);
+            transferencia.add(this.cantidadesPlatillos);
+
             Peticion peticion = new Peticion(TipoAccion.DESGLOSE_PEDIDO, transferencia);
             Client conexion = new Client(peticion);
             double[] datos = (double[]) conexion.getRespuestaServer();
+
             etiquetaCostoTotal.setText("₡" + String.valueOf(datos[0]));
             etiquetaCostoPedido.setText("₡" + String.valueOf(datos[1]));
             etiquetaCaloriasTotales.setText(String.valueOf(datos[2] + " kcals"));
             etiquetaCostoAdicional.setText("₡" + String.valueOf(datos[3]));
+
+
+
+
         }
     }
 }

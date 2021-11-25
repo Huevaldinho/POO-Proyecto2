@@ -4,6 +4,7 @@ import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 
 public class Bebida extends Platillo {
     public  Bebida(){}
+
     public Bebida(String nombrePlatillo, String rutaImagen, Double precio, String descripcion, String tamannoPorcion,
                   int piezasPorcion, int caloriasPorcion, int caloriasPieza) {
         super.nombrePlatillo = nombrePlatillo;
@@ -15,7 +16,6 @@ public class Bebida extends Platillo {
         super.caloriasPorcion = caloriasPorcion;
         super.caloriasPieza = caloriasPieza;
     }
-
     public void setId() {
         String digitos = String.valueOf(CONTADOR_BEB);
         if (digitos.length() == 1)
@@ -52,4 +52,5 @@ public class Bebida extends Platillo {
     public void setCaloriasXPieza(int p){
         super.caloriasPieza=p;
     }
+
 }
