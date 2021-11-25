@@ -3,7 +3,7 @@ package general;
 import java.io.Serializable;
 
 /**
- *
+ * Modelo de peticion
  * @author ersolano
  */
 public class Peticion implements Serializable{

@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+/**
+ * Interfaz para eliminar un platillo
+ */
 public class EliminarPlatilloAdmin extends JFrame {
     private JTable tablaPlatillos;
     private JButton btnEliminar;

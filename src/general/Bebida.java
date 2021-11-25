@@ -2,6 +2,9 @@ package general;
 
 import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 
+/**
+ * Modelo de una bebida
+ */
 public class Bebida extends Platillo {
     public  Bebida(){}
 

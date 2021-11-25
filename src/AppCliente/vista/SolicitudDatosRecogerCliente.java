@@ -1,15 +1,16 @@
 package AppCliente.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
-import general.Pedido;
-import general.Peticion;
-import general.TipoAccion;
+import general.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Interfaz que solicita datos al cliente
+ */
 public class SolicitudDatosRecogerCliente extends JFrame {
     private JTextField textoCelular;
     private JTextField textoNombreRecoge;
@@ -28,12 +29,17 @@ public class SolicitudDatosRecogerCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //MANDAR A GUARDAR PEDIDO
-                realizarPedidio();
-                JOptionPane.showMessageDialog(null, "Pedido Confirmado");
-                dispose();
+                if (textoCelular.getText().trim().isEmpty() || textoNombreRecoge.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No puede dejar campos vacios");
+                } else {
+                    realizarPedidio();
+                    JOptionPane.showMessageDialog(null, "Pedido Confirmado");
+                    dispose();
+                }
             }
             public void realizarPedidio(){
-                System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
+                ((PedidoRecoger)pedidoCliente).setCelular(textoCelular.getText());
+                ((PedidoRecoger)pedidoCliente).setNombreRecoge(textoNombreRecoge.getText());
                 Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,pedidoCliente);
                 ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
                 boolean respuestaServidor = (boolean) conexion.getRespuestaServer();

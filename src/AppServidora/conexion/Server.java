@@ -6,7 +6,7 @@ package AppServidora.conexion;
  * and open the template in the editor.
  */
 /**
- *
+ * Modelo de servidor
  * @author ersolano
  */
 import AppServidora.negocio.Controlador;

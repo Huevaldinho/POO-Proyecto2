@@ -1,5 +1,8 @@
 package general;
 
+/**
+ * Modelo de un pedido que se pasa a recoger
+ */
 public class PedidoRecoger extends Pedido{
     private String nombreRecoge;
     private String celular;

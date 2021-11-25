@@ -8,6 +8,7 @@
     <properties>
       <background color="-13619152"/>
       <font name="Roboto Light" size="12"/>
+      <preferredSize width="800" height="470"/>
     </properties>
     <border type="none"/>
     <children>

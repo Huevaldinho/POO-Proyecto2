@@ -6,22 +6,12 @@
 package general;
 
 /**
- *
- * @author ersolano
+ * Acciones a ser realizadas por el programa
  */
 public enum TipoAccion {
-    /*
-    * Ingresar: Administrador inicia sesion
-    * Saludar: ?
-    * Ver Productos: Mostrar catalogo
-    * Consultar Producto: Ver platillo en especifico
-    * Agregar carrito: Agrega un platillo al carrito
-    * Eliminar platillo: Elimina un platillo del pedido
-    * Modificar platillo: Modifica la informacion de un platillo
-    * Realizar pedido: Manda el pedido del usuario
-    * */
     INGRESAR, SALUDAR, VER_PRODUCTOS, CONSULTAR_PRODUCTO, AGREGAR_CARRITO,
     ELIMINAR_PLATILO, MODIFICAR_PLATILLO, REALIZAR_PEDIDO, AGREGAR_PLATILLO,BUSCAR_PLATILLO, VER_PRODUCTOS_ADMIN,
-    GENERAR_CARRITO, DESGLOSE_PEDIDO, GUARDAR_PEDIDO
+    GENERAR_CARRITO, DESGLOSE_PEDIDO, GUARDAR_PEDIDO, GENERAR_TABLA_TOP_TEN, GENERAR_TABLA_NUNCA_SOLICITADOS,
+    GENERAR_TABLA_PEDIDOS
 
 }

@@ -11,6 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Interfaz del menu principal del administrador
+ */
 public class MenuAdmin extends JFrame {
     private JPanel panel;
     private JButton botonMostrarCatalogo;
@@ -22,6 +25,7 @@ public class MenuAdmin extends JFrame {
         setContentPane(panel);
         setResizable(false);
         this.pack();
+
         botonMostrarCatalogo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -33,6 +37,7 @@ public class MenuAdmin extends JFrame {
                 ventana.setVisible(true);
             }
         });
+
         botonInformeProductos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,10 +45,15 @@ public class MenuAdmin extends JFrame {
                 ventana.setVisible(true);
             }
         });
+
         botonListaPedidos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ventana = new ListaPedidosAdmin();
+                Peticion peti = new Peticion(TipoAccion.GENERAR_TABLA_PEDIDOS, null);
+                ClienteAdmin conexion = new ClienteAdmin(peti);
+                DefaultTableModel dtm = (DefaultTableModel) conexion.getRespuestaServer();
+                ((ListaPedidosAdmin)ventana).setTablaPedidos(dtm);
                 ventana.setVisible(true);
             }
         });

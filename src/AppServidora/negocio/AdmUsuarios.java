@@ -8,14 +8,18 @@ package AppServidora.negocio;
 import general.IConstantes;
 
 /**
- *
- * @author ersolano
+ * Clase especializada en manejar usuarios
  */
 public class AdmUsuarios {
 
     public AdmUsuarios() {
     }
-    
+
+    /**
+     * Metodo par validar el administrador en la app
+     * @param pwd: codigo ingresado
+     * @return Retorna booleano para dar acceso
+     */
     public boolean validarAdm(String pwd){
         return pwd.equals(IConstantes.pwdAdm);
     }

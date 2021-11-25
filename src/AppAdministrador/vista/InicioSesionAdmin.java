@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Interfaz de inicio de sesion
+ */
 public class InicioSesionAdmin extends JFrame {
     private JPasswordField campoContrasena;
     private JButton botonIniciarSesion;

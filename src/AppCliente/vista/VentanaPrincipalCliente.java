@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
+/**
+ * Interfaz con el catalogo de productos
+ */
 public class VentanaPrincipalCliente extends JFrame {
     private JPanel panel;
     private JComboBox comboboxFiltro;
@@ -23,6 +25,7 @@ public class VentanaPrincipalCliente extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
     private JTextField txtNombre;
+    private JButton actualizarPlatillosButton;
 
     public VentanaPrincipalCliente() {
         super("Catalogo");
@@ -42,6 +45,9 @@ public class VentanaPrincipalCliente extends JFrame {
                     boolean banderaError = false;
                     for (int i = 0; i < tm.getRowCount(); i++) {
                         String celda = (String) tm.getValueAt(i, 9);
+                        if (celda.trim().isEmpty()) {
+                            celda = "0";
+                        }
                         int cantidad = Integer.parseInt(celda);
                         if (cantidad < 0) {
                             banderaError = true;
@@ -96,6 +102,16 @@ public class VentanaPrincipalCliente extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 TableModel modelo = tablaCatalogo.getModel();
                 
+            }
+        });
+
+        actualizarPlatillosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Peticion peticion = new Peticion(TipoAccion.VER_PRODUCTOS, null);
+                Client conexion = new Client(peticion);
+                DefaultTableModel dtm = (DefaultTableModel) conexion.getRespuestaServer();
+                setTablaCatalogo(dtm);
             }
         });
     }

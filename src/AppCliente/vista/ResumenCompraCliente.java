@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Interfaz que muestra el carrito de compras
+ */
 public class ResumenCompraCliente extends JFrame {
     private JPanel panel;
     private JTable tablaResumenPedido;
@@ -23,7 +26,7 @@ public class ResumenCompraCliente extends JFrame {
     private JLabel etiquetaCostoPedido;
     private JLabel etiquetaCostoAdicional;
     private JLabel etiquetaCaloriasTotales;
-    private ArrayList<Object> transferencia = new ArrayList<>();
+    private JButton actualizarDesgloseButton;
     private ArrayList<Integer> cantidadesPlatillos = new ArrayList<>();
     private Pedido pedi;
 
@@ -52,6 +55,17 @@ public class ResumenCompraCliente extends JFrame {
                 }
             }
         });
+
+        actualizarDesgloseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pedi.resetearArrays();
+                cantidadesPlatillos.clear();
+                System.out.println("RESETEO");
+                System.out.println(pedi);
+                desglosePedido(pedi);
+            }
+        });
     }
 
     public void realizarPedido(Pedido pedidoCliente){
@@ -78,6 +92,9 @@ public class ResumenCompraCliente extends JFrame {
         boolean banderaError = false;
         for (int i = 0; i < tm.getRowCount(); i++) {
             String celda = (String) tm.getValueAt(i, 9);
+            if (celda.trim().isEmpty()) {
+                celda = "0";
+            }
             int cantidad = Integer.parseInt(celda);
             if (cantidad < 0) {
                 banderaError = true;
@@ -93,13 +110,19 @@ public class ResumenCompraCliente extends JFrame {
         } else if (idPlatillos.size() == 0) {
             JOptionPane.showMessageDialog(null, "Agregue al menos un platillo");
         } else {
+            ArrayList<Object> transferencia = new ArrayList<>();
             transferencia.add(idPlatillos);
             transferencia.add(pedidoCliente);
-            transferencia.add(this.cantidadesPlatillos);
+            transferencia.add(cantidadesPlatillos);
+            System.out.println("TRANSFERENCIA");
+            System.out.println(transferencia);
 
             Peticion peticion = new Peticion(TipoAccion.GUARDAR_PEDIDO, transferencia);
             Client conexion = new Client(peticion);
             pedidoCliente = (Pedido) conexion.getRespuestaServer();
+
+            System.out.println("GUARDAR PEDIDO");
+            System.out.println(pedidoCliente);
 
             peticion = new Peticion(TipoAccion.DESGLOSE_PEDIDO, pedidoCliente);
             conexion = new Client(peticion);
@@ -109,7 +132,8 @@ public class ResumenCompraCliente extends JFrame {
             etiquetaCostoPedido.setText("₡" + String.valueOf(pedidoCliente.getCosto()));
             etiquetaCaloriasTotales.setText(String.valueOf(pedidoCliente.getTotalCalorias() + " kcals"));
             etiquetaCostoAdicional.setText("₡" + String.valueOf(pedidoCliente.getCostoAdicional()));
-            pedi=pedidoCliente;
+
+            pedi = pedidoCliente;
         }
     }
 }

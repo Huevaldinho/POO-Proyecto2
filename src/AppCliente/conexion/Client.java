@@ -11,6 +11,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.*;
 
+/**
+ * Modelo de cliente
+ */
 public class Client {
 
     private Peticion nuevaPeticion;

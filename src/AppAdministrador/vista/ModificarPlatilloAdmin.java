@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Interfaz para modificar un platillo
+ */
 public class ModificarPlatilloAdmin  extends JFrame {
     private JTable tablaPlatillos;
     private JPanel panel;

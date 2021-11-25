@@ -3,6 +3,9 @@ package general;
 import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 import static AppServidora.negocio.AdmProductos.CONTADOR_ENT;
 
+/**
+ * Modelo de una entrada
+ */
 public class Entrada extends Platillo{
     public Entrada(String nombrePlatillo, String rutaImagen, Double precio, String descripcion, String tamannoPorcion,
                    int piezasPorcion, int caloriasPorcion, int caloriasPieza) {

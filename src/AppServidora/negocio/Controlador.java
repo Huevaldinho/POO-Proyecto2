@@ -13,24 +13,26 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
- *
- * @author ersolano
+ * Clase que se encarga de llevar el control general
  */
 public class Controlador {
-    
+
     private AdmUsuarios admUsr = new AdmUsuarios();
     private AdmProductos admProducts = new AdmProductos();
     private AdmPedidos admPedidos = new AdmPedidos();
-
-
 
     public Controlador() {
         admProducts.cargarPlatillos();
         admProducts.actualizarContadoresId();
         admPedidos.setAmdProducts(this.admProducts);
-
+        admPedidos.cargarPedidos();
     }
-    
+
+    /**
+     * Metodo que se encarga de gestionar la peticion recibida
+     * @param peticionRecibida: Peticion del cliente
+     * @return Retorna la peticion actualizada
+     */
     public Peticion procesarPeticion(Peticion peticionRecibida) {
         switch (peticionRecibida.getAccion()){
             case INGRESAR: {
@@ -81,6 +83,18 @@ public class Controlador {
             }
             case DESGLOSE_PEDIDO: {
                 peticionRecibida.setDatosSalida(admPedidos.calcularDesglose(peticionRecibida));
+                break;
+            }
+            case GENERAR_TABLA_NUNCA_SOLICITADOS: {
+                peticionRecibida.setDatosSalida(admPedidos.modeloTablaNuncaOrdenados());
+                break;
+            }
+            case GENERAR_TABLA_PEDIDOS: {
+                peticionRecibida.setDatosSalida(admPedidos.modeloTablaPedidos());
+                break;
+            }
+            case GENERAR_TABLA_TOP_TEN: {
+                peticionRecibida.setDatosSalida(admPedidos.modeloTablaTopTen());
                 break;
             }
         }

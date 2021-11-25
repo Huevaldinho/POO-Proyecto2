@@ -1,5 +1,6 @@
 package AppAdministrador.vista;
 
+import AppAdministrador.conexion.ClienteAdmin;
 import AppCliente.conexion.Client;
 import AppCliente.vista.VentanaPrincipalCliente;
 import general.Peticion;
@@ -11,6 +12,9 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Interfaz que muestra el catalogo de productos
+ */
 public class MostrarPlatillosAdmin extends JFrame {
     private JPanel panel;
     private JComboBox comboboxFiltros;
@@ -20,6 +24,7 @@ public class MostrarPlatillosAdmin extends JFrame {
     private JTable tablaPlatillos;
     private JButton btnModificarPlatillo;
     private JButton btnEliminarPlatillo;
+    private JButton actualizarTablaButton;
 
     public MostrarPlatillosAdmin() {
         super("Platillos");
@@ -58,6 +63,15 @@ public class MostrarPlatillosAdmin extends JFrame {
                 DefaultTableModel  tablaProductos = (DefaultTableModel) conexion.getRespuestaServer();
                 ((ModificarPlatilloAdmin)ventanaModificar).setTablaCatalogo(tablaProductos);
                 ventanaModificar.setVisible(true);
+            }
+        });
+        actualizarTablaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Peticion peticion = new Peticion(TipoAccion.VER_PRODUCTOS_ADMIN, null);
+                ClienteAdmin conexion = new ClienteAdmin(peticion);
+                DefaultTableModel dtm = (DefaultTableModel) conexion.getRespuestaServer();
+                setTablaCatalogo(dtm);
             }
         });
     }

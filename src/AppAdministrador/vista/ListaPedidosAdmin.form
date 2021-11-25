@@ -8,6 +8,7 @@
     <properties>
       <background color="-13619152"/>
       <font name="Roboto Light" size="12"/>
+      <preferredSize width="1200" height="470"/>
     </properties>
     <border type="none"/>
     <children>
@@ -37,7 +38,11 @@
               <font name="Roboto Light" size="12"/>
               <foreground color="-1"/>
               <gridColor color="-15195973"/>
+              <rowHeight value="100"/>
             </properties>
+            <clientProperties>
+              <JTable.autoStartsEdit class="java.lang.Boolean" value="false"/>
+            </clientProperties>
           </component>
         </children>
       </scrollpane>

@@ -3,6 +3,9 @@ package general;
 import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 import static AppServidora.negocio.AdmProductos.CONTADOR_PTR;
 
+/**
+ * Modelo de postre
+ */
 public class Postre extends Platillo {
     public Postre(String nombrePlatillo, String rutaImagen, Double precio, String descripcion, String tamannoPorcion,
                   int piezasPorcion, int caloriasPorcion, int caloriasPieza) {

@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Modelo de cliente
+ */
 public class ClienteAdmin {
     private Peticion nuevaPeticion;
 

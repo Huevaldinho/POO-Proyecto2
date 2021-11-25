@@ -1,8 +1,7 @@
 package general;
 
 /**
- *
- * @author ersolano
+ * Constantes para la app
  */
 public interface IConstantes {
     

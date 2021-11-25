@@ -3,6 +3,9 @@ package general;
 import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 import static AppServidora.negocio.AdmProductos.CONTADOR_PRN;
 
+/**
+ * Modelo de plato fuerte
+ */
 public class PlatoFuerte extends Platillo {
     public PlatoFuerte(String nombrePlatillo, String rutaImagen, Double precio, String descripcion, String tamannoPorcion,
                        int piezasPorcion, int caloriasPorcion, int caloriasPieza) {

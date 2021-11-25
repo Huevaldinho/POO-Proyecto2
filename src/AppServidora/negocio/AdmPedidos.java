@@ -3,20 +3,29 @@ package AppServidora.negocio;
 import general.*;
 
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
- * Descripcion: Clase especializada en administrar pedidos.
+ * Clase especializada en administrar pedidos
+ * @author Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
  */
 public class AdmPedidos {
     private static double costoExtraEmpaque = 25;
     private static double costoExtraEnvio = 2500;
     private AdmProductos amdProducts;
+    private AdmArchivosBinarios admArchivosBinarios = new AdmArchivosBinarios();
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private int numeroPedido = 0;
 
     public AdmPedidos() {
+    }
+
+    /**
+     * Metodo para cargar en memoria el array de los pedidos
+     */
+    public void cargarPedidos() {
+        pedidos = admArchivosBinarios.cargarArchivosPedidos();
     }
 
     /**
@@ -54,17 +63,17 @@ public class AdmPedidos {
     }
 
     /**
-     * Direcciona la peticion
+     * Direcciona la peticion y guarda el pedido en el array
      * @param pedido: Objeto pedidod del cliente
      * @return booleano
      */
     public boolean realizarNuevoPedido(Pedido pedido){
         pedido = amdProducts.meterPedidoUsuario(pedido);
         //PEDIDO TRAE TODA LA INFO ACTUALIZADA
-
         pedidos.add(pedido);
-        System.out.println("Pedido modificado: "+pedido);
+        admArchivosBinarios.insertarPedido(pedidos);
 
+        System.out.println("Pedido registrado: "+pedido);
         return true;
     }
 
@@ -74,18 +83,23 @@ public class AdmPedidos {
      */
     public void setAmdProducts(AdmProductos admin){
         this.amdProducts=admin;
-        System.out.println(this.amdProducts);
     }
 
     /**
      * Genera la tabla de los productos Top Ten mas pedidos
      * @return
      */
-    public DefaultTableModel modeloTablaTopTen(){
+    public DefaultTableModel modeloTablaTopTen() {
         ArrayList<Platillo> ordenado = amdProducts.TopTenMasPedidos();
+        System.out.println(ordenado);
         //HACER TABLA
-        String[] encabezado = {"Codigo","Nombre","Descripcion","Categoria"};
-        DefaultTableModel dtm = new DefaultTableModel(encabezado, ordenado.size());
+        String[] encabezado = {"Codigo","Nombre","Descripcion","Categoria", "Cantidad De Veces Solicitado"};
+        DefaultTableModel dtm = null;
+        if (ordenado.size() >= 10) {
+            dtm = new DefaultTableModel(encabezado, 10);
+        } else {
+            dtm = new DefaultTableModel(encabezado, ordenado.size());
+        }
         for (int i = 0; i < dtm.getRowCount(); i++) {
             Platillo cte = ordenado.get(i);
 
@@ -101,6 +115,8 @@ public class AdmPedidos {
                 dtm.setValueAt("Postre",i,3);
             else if (cte instanceof PlatoFuerte)
                 dtm.setValueAt("Plato Fuerte",i,3);
+
+            dtm.setValueAt(cte.getCantidadDeVecesSolicitado(), i, 4);
         }
         return dtm;//Meter en la gui
     }
@@ -115,18 +131,66 @@ public class AdmPedidos {
         String[] encabezado = {"Codigo","Nombre","Categoria"};
         DefaultTableModel dtm = new DefaultTableModel(encabezado, nuncaPedidos.size());
         for (int i = 0; i < dtm.getRowCount(); i++) {
-            Platillo cte = (Platillo) nuncaPedidos.get(i);
+            Platillo cte = nuncaPedidos.get(i);
             dtm.setValueAt(cte.getId(), i, 0);
             dtm.setValueAt(cte.getNombrePlatillo(),i,1);
-            dtm.setValueAt(cte.getDescripcion(),i,2);
             if (cte instanceof Entrada)
-                dtm.setValueAt("Entrada",i,3);
+                dtm.setValueAt("Entrada",i,2);
             else if (cte instanceof Bebida)
-                dtm.setValueAt("Bebida",i,3);
+                dtm.setValueAt("Bebida",i,2);
             else if (cte instanceof Postre)
-                dtm.setValueAt("Postre",i,3);
+                dtm.setValueAt("Postre",i,2);
             else if (cte instanceof PlatoFuerte)
-                dtm.setValueAt("Plato Fuerte",i,3);
+                dtm.setValueAt("Plato Fuerte",i,2);
+        }
+        return dtm;
+    }
+
+    /**
+     * Metodo para generar la tabla de todos los pedidos
+     * @return retorna el modelo de la tabla
+     */
+    public DefaultTableModel modeloTablaPedidos() {
+        String[] encabezado = {"Fecha", "Numero Pedido", "Nombre", "Nombre De Quién Recoge", "Celular", "Dirección", "Platillos"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, pedidos.size());
+
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Pedido cte = pedidos.get(i);
+            dtm.setValueAt((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(cte.getFecha()), i, 0);
+
+            dtm.setValueAt(cte.getNumeroPedido(), i, 1);
+
+            dtm.setValueAt(cte.getNombre(), i, 2);
+            if (cte.getClass() == PedidoRecoger.class) {
+                dtm.setValueAt((((PedidoRecoger) cte).getNombreRecoge()), i, 3);
+            } else {
+                dtm.setValueAt("No Aplica", i, 3);
+            }
+
+            if (cte.getClass() == PedidoExpress.class) {
+                dtm.setValueAt(((PedidoExpress)cte).getCelular(), i, 4);
+            } else if (cte.getClass() == PedidoRecoger.class) {
+                dtm.setValueAt(((PedidoRecoger)cte).getCelular(), i, 4);
+            } else {
+                dtm.setValueAt("No Aplica", i, 4);
+            }
+
+            if (cte.getClass() == PedidoExpress.class) {
+                dtm.setValueAt(((PedidoExpress) cte).getDireccion(), i, 5);
+            } else {
+                dtm.setValueAt("No Aplica", i, 5);
+            }
+
+            String textoPlatillo = "";
+            int pos = 0;
+            for (Platillo j : cte.getPlatillosPedidos()) {
+                textoPlatillo += j.getNombrePlatillo() + " - Cantidad: " + cte.getCantidadPlatillosPedidos().get(pos) + "\n";
+                pos++;
+            }
+            String convertido = null;
+            String sinSaltos = textoPlatillo.replaceAll("\n", "<br> ");
+            convertido = "<HTML> " + sinSaltos + " </HTML>";
+            dtm.setValueAt(convertido, i, 6);
         }
         return dtm;
     }

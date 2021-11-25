@@ -2,6 +2,7 @@ package AppCliente.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
 import general.Pedido;
+import general.PedidoExpress;
 import general.Peticion;
 import general.TipoAccion;
 
@@ -10,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Interfaz que solicita datos al cliente
+ */
 public class SolicitudDatosExpressCliente extends JFrame {
     private JTextField textoCelular;
     private JButton botonConfirmar;
@@ -30,13 +34,18 @@ public class SolicitudDatosExpressCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //MANDAR A GUARDAR EL PEDIDO
-                realizarPedido();
-                JOptionPane.showMessageDialog(null, "Pedido Confirmado");
-                dispose();
+                if (textoCelular.getText().trim().isEmpty() || textoDireccion.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No puede dejar campos vacios");
+                } else {
+                    realizarPedido();
+                    JOptionPane.showMessageDialog(null, "Pedido Confirmado");
+                    dispose();
+                }
             }
             public void realizarPedido(){
                 //GUARDA EL PEDIDO
-                System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
+                ((PedidoExpress)pedidoCliente).setCelular(textoCelular.getText());
+                ((PedidoExpress)pedidoCliente).setDireccion(textoDireccion.getText());
                 Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,pedidoCliente);
                 ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
                 boolean respuestaServidor = (boolean) conexion.getRespuestaServer();

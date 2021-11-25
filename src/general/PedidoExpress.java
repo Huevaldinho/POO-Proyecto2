@@ -1,5 +1,8 @@
 package general;
 
+/**
+ * Modelo de pedido modalidad express
+ */
 public class PedidoExpress extends Pedido{
     private String celular;
     private String direccion;

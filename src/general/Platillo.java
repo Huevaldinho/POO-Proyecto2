@@ -5,6 +5,9 @@ import jdk.swing.interop.SwingInterOpUtils;
 import java.io.Serializable;
 import java.util.Locale;
 
+/**
+ * Modelo de un platillo
+ */
 public abstract class Platillo implements Serializable {
     protected String nombrePlatillo;
     protected String rutaImagen;
@@ -15,7 +18,7 @@ public abstract class Platillo implements Serializable {
     protected int piezasPorcion;
     protected int caloriasPorcion;
     protected int caloriasPieza;
-    protected  int cantidadDeVecesSolicitado;
+    protected int cantidadDeVecesSolicitado = 0;
 
     public Platillo(){}
 
@@ -29,7 +32,6 @@ public abstract class Platillo implements Serializable {
         this.piezasPorcion = plati.getPiezasPorcion();
         this.caloriasPorcion = plati.getCaloriasPorcion();
         this.caloriasPieza = plati.getCaloriarPieza();
-
     }
 
     public String getNombrePlatillo() {
@@ -115,8 +117,10 @@ public abstract class Platillo implements Serializable {
     }
 
     public void aumentarPlatillo(int cantidad){
-        cantidadDeVecesSolicitado+=cantidad;
+        cantidadDeVecesSolicitado += cantidad;
     }
+
+
 
     @Override
     public String toString() {

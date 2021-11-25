@@ -8,10 +8,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
- *
- * @author ersolano
+ * Clase especializada en manejar productos
  */
 public class AdmProductos{
     private AdmArchivosBinarios admArchivos = new AdmArchivosBinarios();
@@ -26,9 +27,8 @@ public class AdmProductos{
     AdmProductos (){}
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Busca un platillo en el arrayList de platillos
      * @param peti: Peticion para buscar platillo
-     * Descripcion: Busca un platillo en el arrayList de platillos
      * */
     public  int buscarPlatillo(Peticion peti){
         //Abrir archivo binario y buscar a peti
@@ -50,6 +50,11 @@ public class AdmProductos{
         return -1;
     }
 
+    /**
+     * Metodo para buscar un platillo por el id
+     * @param codigo: Id a buscar
+     * @return int para saber valor booleano
+     */
     public int buscarPorCodigo(String codigo){
         int contador=0;
         for (Platillo actual:platillos){
@@ -61,9 +66,8 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * @param peti: Peticion para insertar platillo
-     * Descripcion: Inserta un platillo en el arrayList y en el archivo binario.
+     * Inserta un platillo en el arrayList y en el archivo binario.
+     * @param peti Peticion para insertar platillo
      * */
     public boolean insertarNuevoPlatillo(Peticion peti){//Revisar archivos binarios
         if (buscarPlatillo(peti)==-1){//Como no existe lo mete al archivo
@@ -76,9 +80,8 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * @param peti: Peticion para modificar platillo
-     * Descripcion: Modifica un platillo en el arrayList y en el archivo binario.
+     * Modifica un platillo en el arrayList y en el archivo binario.
+     * @param peti Peticion para modificar platillo
     * */
     public boolean modificarPlatillo(Peticion peti){
         System.out.println("MODIFICAR PLATILLOS ");
@@ -104,9 +107,8 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Elimina un platillo en el arrayList y en el archivo binario.
      * @param peti: Peticion para eliminar platillo
-     * Descripcion: Elimina un platillo en el arrayList y en el archivo binario.
      * */
     public boolean eliminarPlatillo(Peticion peti){
         //Siempre lo encuentra porque toma el index de la tabla
@@ -116,16 +118,14 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * Descripcion: Solicita que cargen los platillos de los archivos binarios
+     * Solicita que cargen los platillos de los archivos binarios
      * */
     public void cargarPlatillos() {
         platillos = admArchivos.cargarArchivosPlatillos();//Carga platillos de archivos binarios
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
+     * Genera el modelo de la tabla para mostrar los platillos a los Usuarios
      * */
     public DefaultTableModel generarTablaPlatillos() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
@@ -151,9 +151,8 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
+     * Genera el modelo de la tabla para mostrar los platillos a los Usuarios
      * @param platillosSeleccionados: Son los platillos seleccionados por el usuario
-     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
      * */
     public DefaultTableModel generarTablaPlatillos(ArrayList<Platillo> platillosSeleccionados) {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
@@ -179,8 +178,7 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * Descripcion: Genera el modelo de la tabla para mostrar los platillos a los Usuarios
+     * Genera el modelo de la tabla para mostrar los platillos a los Usuarios
      * */
     public DefaultTableModel generarTablaPlatillosAdmin() {
         String[] encabezado = {"Código Del Platillo", "Nombre Del Platillo", "Descripcion", "Tamaño De La Porción",
@@ -202,8 +200,7 @@ public class AdmProductos{
     }
 
     /**
-     * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
-     * Descripcion: Actualiza los contadores de los tipos de platillos
+     * Actualiza los contadores de los tipos de platillos
      * */
     public void actualizarContadoresId() {
         for (Platillo i : platillos) {
@@ -220,7 +217,7 @@ public class AdmProductos{
     }
 
     /**
-     *
+     * Metodo para generar el carrito de compras
      * @param peti: Peticion por parte del cliente
      * @return retorna el modelo de la tabla con el carrito de compras
      */
@@ -257,23 +254,24 @@ public class AdmProductos{
         return pedidoSolo;
     }
 
+    /**
+     * Metodo para registrar un pedido
+     * @param pedidoEntrante
+     * @return retorna el pedido para ser actualizado
+     */
     public Pedido meterPedidoUsuario(Pedido pedidoEntrante){
+        int pos = 0; //POSICION DEL PLATILLO EN EL ARRAY
+        for (Platillo actual : pedidoEntrante.getPlatillosPedidos()){ //AUMENTA LA CANTIDAD DE VECES QUE SE PIDIO ESE PLATILLOS
+            for (Platillo i : platillos) {
+                if (actual.equals(i))
+                    i.aumentarPlatillo(pedidoEntrante.getCantidadPlatillosPedidos().get(pos));
 
-        Platillo tmp= null;
-        int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
-        ArrayList<Platillo> tmpPlatillos = pedidoEntrante.getPlatillosPedidos();
-        System.out.println("Toma los platillos del pedido"+tmpPlatillos.toString());
-        for (Platillo actual:tmpPlatillos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
-            tmp = platillos.get(buscarPorCodigo(actual.getId()));
-
-            tmp.aumentarPlatillo(pedidoEntrante.getCantidadPlatillosPedidos().get(pos));//aumenta en el total
+            }
             pos++;
         }
         pedidoEntrante.setFecha();
         pedidoEntrante.setNumeroPedido();
         System.out.println("Peticion editada: "+pedidoEntrante.toString());
-
-        //Set costo
 
         admArchivos.insertarPlatillo(platillos);//TIENE QUE GUARDAR EL ARCHIVO OTRA VEZ
 
@@ -282,37 +280,35 @@ public class AdmProductos{
 
     //Consultas
 
+    /**
+     * Metodo para ordenar los productos mas pedidos
+     * @return retorna el array ordenado
+     */
     public ArrayList<Platillo> TopTenMasPedidos(){
-        ArrayList<Platillo> ordenados= selectionSort();
-        return ordenados;
+        ArrayList<Platillo> temporal = new ArrayList<>();
+        for (Platillo i : platillos) {
+            if (i.getCantidadDeVecesSolicitado() > 0) {
+                temporal.add(i);
+            }
+        }
+
+        Collections.sort(temporal, new Comparator<Platillo>() {
+            @Override
+            public int compare(Platillo p1, Platillo p2) {
+                return new Integer(p2.getCantidadDeVecesSolicitado()).compareTo(new Integer(p1.getCantidadDeVecesSolicitado()));
+            }
+        });
+        return temporal;
     }
 
-    public ArrayList<Platillo> selectionSort() {
-        int size = platillos.size();
-        ArrayList<Platillo> tmp = platillos;
-        for (int step = 0; step < size - 1; step++) {
-            int min_idx = step;
-            for (int i = step + 1; i < size; i++) {
-                // To sort in descending order, change > to < in this line.
-                // Select the minimum element in each loop.
-                if (tmp.get(i).getCantidadDeVecesSolicitado()>tmp.get(min_idx).getCantidadDeVecesSolicitado()) {
-                    min_idx = i;
-                }
-            }
-            // put min at the correct position
-            Platillo tmpPlatillo = tmp.get(step);
-            //int temp = array[step];
-            tmp.set(step,tmp.get(min_idx));
-            //array[step] = array[min_idx];
-            tmp.set(min_idx,tmpPlatillo);
-            //array[min_idx] = temp;
-        }
-        return tmp;
-    }
+    /**
+     * Metodo para sacar una copia de los productos nunca pedidos y meterlos a un array temporal
+     * @return
+     */
     public ArrayList<Platillo> TopTenNuncaPedidos(){
         ArrayList<Platillo> tmp = new ArrayList<>();
-        for (Platillo actual: platillos){
-            if (actual.getCantidadDeVecesSolicitado()==0)
+        for (Platillo actual : platillos) {
+            if (actual.getCantidadDeVecesSolicitado() == 0)
                 tmp.add(actual);
         }
         return tmp;

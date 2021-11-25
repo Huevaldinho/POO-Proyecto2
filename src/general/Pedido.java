@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Clase madre Pedido
+ */
 public class Pedido implements Serializable {
     protected String nombre;
     protected int numeroPedido;
@@ -15,7 +18,7 @@ public class Pedido implements Serializable {
     protected double totalCalorias;
     protected ArrayList<Platillo> platillosPedidos;
     protected  ArrayList<Integer> cantidadPlatillosPedidos = new ArrayList<>();
-    protected static int contadorID=0;
+    protected static int contadorID=1;
 
 
     public Pedido() {}
@@ -97,6 +100,11 @@ public class Pedido implements Serializable {
         this.totalCalorias = totalCalorias;
     }
 
+    public void resetearArrays() {
+        platillosPedidos.clear();
+        cantidadPlatillosPedidos.clear();
+    }
+
     @Override
     public String toString() {
         return "Pedido{" +
@@ -104,7 +112,11 @@ public class Pedido implements Serializable {
                 ", numeroPedido=" + numeroPedido +
                 ", fecha=" + fecha +
                 ", costo=" + costo +
+                ", costoTotal=" + costoTotal +
+                ", costoAdicional=" + costoAdicional +
+                ", totalCalorias=" + totalCalorias +
                 ", platillosPedidos=" + platillosPedidos +
+                ", cantidadPlatillosPedidos=" + cantidadPlatillosPedidos +
                 '}';
     }
 }
