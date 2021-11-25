@@ -247,7 +247,7 @@ public class AdmProductos{
                 }
             }
         }
-        
+
         return admPedidos.calcularDesglose(platillosSeleccionados, tipoPedido);
     }
     public void guardarPlatillosCantidades(Object pedidoEntrante){
