@@ -97,6 +97,10 @@ public class Controlador {
                 peticionRecibida.setDatosSalida(admPedidos.modeloTablaTopTen());
                 break;
             }
+            case GENERAR_PIECHART_TIPOLUGAR:{
+                peticionRecibida.setDatosSalida(admPedidos.reporteRelacionEntreLugaresDePedido());
+                break;
+            }
         }
         return peticionRecibida;
     }

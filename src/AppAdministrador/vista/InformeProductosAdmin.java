@@ -2,7 +2,9 @@ package AppAdministrador.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
 import general.Peticion;
+import general.PieChart;
 import general.TipoAccion;
+import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -51,8 +53,12 @@ public class InformeProductosAdmin extends JFrame {
         botonRelacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame ventana = new RelacionEntreLugaresPedidosAdmin();
-                ventana.setVisible(true);
+                Peticion peti = new Peticion(TipoAccion.GENERAR_TABLA_NUNCA_SOLICITADOS, null);
+                ClienteAdmin conexion = new ClienteAdmin(peti);
+                PieChart pch = new PieChart("Relación entre lugares de pedido", (double[]) conexion.getRespuestaServer());
+                pch.setSize( 560 , 367 );
+                RefineryUtilities.centerFrameOnScreen(pch);
+                pch.setVisible( true );
             }
         });
     }

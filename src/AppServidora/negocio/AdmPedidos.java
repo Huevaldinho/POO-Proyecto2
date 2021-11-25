@@ -195,6 +195,22 @@ public class AdmPedidos {
         return dtm;
     }
 
+    public double[] reporteRelacionEntreLugaresDePedido(){
+        double[] datos =new double[3];
+
+        for (int i=0;i<3;i++)
+            datos[i]=0; //para limpiar por si acaso
+
+        for (Pedido pedido : pedidos){
+            if (pedido.getClass() == PedidoRecoger.class)
+                datos[0]++;
+            else if (pedido.getClass()==PedidoExpress.class)
+                datos[1]++;
+            else
+                datos[2]++;
+        }
+        return datos;
+    }
     //FALTA LA VARA DE PORCENTAJES
 //    private static PieDataset createDataset( ) {
 //        DefaultPieDataset dataset = new DefaultPieDataset( );
