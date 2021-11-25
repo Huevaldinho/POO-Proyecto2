@@ -62,7 +62,7 @@ public class AdmPedidos {
         pedido = amdProducts.meterPedidoUsuario(pedido);
         //PEDIDO TRAE TODA LA INFO ACTUALIZADA
 
-        //pedidos.add(pedido);
+        pedidos.add(pedido);
         System.out.println("Pedido modificado: "+pedido);
 
         return true;
@@ -87,16 +87,22 @@ public class AdmPedidos {
         String[] encabezado = {"Codigo","Nombre","Descripcion","Categoria"};
         DefaultTableModel dtm = new DefaultTableModel(encabezado, ordenado.size());
         for (int i = 0; i < dtm.getRowCount(); i++) {
-            Platillo cte = (Platillo) ordenado.get(i);
+            Platillo cte = ordenado.get(i);
 
             dtm.setValueAt(cte.getId(), i, 0);
             dtm.setValueAt(cte.getNombrePlatillo(),i,1);
             dtm.setValueAt(cte.getDescripcion(),i,2);
 
-            //FALTA CATEGORIA
-
+            if (cte instanceof Entrada)
+                dtm.setValueAt("Entrada",i,3);
+            else if (cte instanceof Bebida)
+                dtm.setValueAt("Bebida",i,3);
+            else if (cte instanceof Postre)
+                dtm.setValueAt("Postre",i,3);
+            else if (cte instanceof PlatoFuerte)
+                dtm.setValueAt("Plato Fuerte",i,3);
         }
-        return dtm;
+        return dtm;//Meter en la gui
     }
 
     /**
@@ -113,12 +119,29 @@ public class AdmPedidos {
             dtm.setValueAt(cte.getId(), i, 0);
             dtm.setValueAt(cte.getNombrePlatillo(),i,1);
             dtm.setValueAt(cte.getDescripcion(),i,2);
-
-            //FALTA CATEGORIA
-
+            if (cte instanceof Entrada)
+                dtm.setValueAt("Entrada",i,3);
+            else if (cte instanceof Bebida)
+                dtm.setValueAt("Bebida",i,3);
+            else if (cte instanceof Postre)
+                dtm.setValueAt("Postre",i,3);
+            else if (cte instanceof PlatoFuerte)
+                dtm.setValueAt("Plato Fuerte",i,3);
         }
         return dtm;
     }
+
     //FALTA LA VARA DE PORCENTAJES
+//    private static PieDataset createDataset( ) {
+//        DefaultPieDataset dataset = new DefaultPieDataset( );
+//        dataset.setValue( "San José" , new Double( 20 ) );
+//        dataset.setValue( "Alajuela" , new Double( 20 ) );
+//        dataset.setValue( "Heredia" , new Double( 10 ) );
+//        dataset.setValue( "Cartago" , new Double( 15 ) );
+//        dataset.setValue( "Guanacaste" , new Double( 25 ) );
+//        dataset.setValue( "Limón" , new Double( 7 ) );
+//        dataset.setValue( "Puntarenas" , new Double( 3 ) );
+//        return dataset;
+//    }
 
 }

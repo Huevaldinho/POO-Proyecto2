@@ -15,6 +15,7 @@ public class Pedido implements Serializable {
     protected double totalCalorias;
     protected ArrayList<Platillo> platillosPedidos;
     protected  ArrayList<Integer> cantidadPlatillosPedidos = new ArrayList<>();
+    protected static int contadorID=0;
 
 
     public Pedido() {}
@@ -43,8 +44,9 @@ public class Pedido implements Serializable {
         return numeroPedido;
     }
 
-    public void setNumeroPedido(int numeroPedido) {
-        this.numeroPedido = numeroPedido;
+    public void setNumeroPedido() {
+        this.numeroPedido = contadorID;
+        contadorID++;
     }
 
     public Date getFecha() {

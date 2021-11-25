@@ -1,6 +1,7 @@
 package AppCliente.vista;
 
 import AppAdministrador.conexion.ClienteAdmin;
+import general.Pedido;
 import general.Peticion;
 import general.TipoAccion;
 
@@ -16,7 +17,7 @@ public class SolicitudDatosRecogerCliente extends JFrame {
     private JPanel panel;
     private ArrayList<Object> transferencia = new ArrayList<>();
 
-    public SolicitudDatosRecogerCliente(ArrayList<Object> transferencia ) {
+    public SolicitudDatosRecogerCliente(Pedido pedidoCliente ) {
         super("Solicitud Datos");
         setContentPane(panel);
         setResizable(false);
@@ -33,7 +34,7 @@ public class SolicitudDatosRecogerCliente extends JFrame {
             }
             public void realizarPedidio(){
                 System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
-                Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,transferencia);
+                Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,pedidoCliente);
                 ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
                 boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
             }

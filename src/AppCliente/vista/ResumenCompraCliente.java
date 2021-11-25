@@ -25,6 +25,7 @@ public class ResumenCompraCliente extends JFrame {
     private JLabel etiquetaCaloriasTotales;
     private ArrayList<Object> transferencia = new ArrayList<>();
     private ArrayList<Integer> cantidadesPlatillos = new ArrayList<>();
+    private Pedido pedi;
 
     public ResumenCompraCliente(JComboBox tipoPedido, DefaultTableModel tm, ArrayList<Integer> cantidadPlatillos, Pedido pedidoCliente) {
         super("Resumen De Compra");
@@ -39,14 +40,14 @@ public class ResumenCompraCliente extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int seleccion = tipoPedido.getSelectedIndex();
                 if (seleccion == 0) {
-                    JFrame ventana = new SolicitudDatosExpressCliente(transferencia);
+                    JFrame ventana = new SolicitudDatosExpressCliente(pedi);
                     ventana.setVisible(true);
                 } else if (seleccion == 1) {
-                    realizarPedido(pedidoCliente );//MANDAR A GUARDAR PEDIDO
+                    realizarPedido(pedi );//MANDAR A GUARDAR PEDIDO
                     JOptionPane.showMessageDialog(null, "Pedido Confirmado");
                     dispose();
                 } else {
-                    JFrame ventana = new SolicitudDatosRecogerCliente(transferencia);
+                    JFrame ventana = new SolicitudDatosRecogerCliente(pedi);
                     ventana.setVisible(true);
                 }
             }
@@ -55,7 +56,6 @@ public class ResumenCompraCliente extends JFrame {
 
     public void realizarPedido(Pedido pedidoCliente){
         //GUARDA EL PEDIDO
-        System.out.println("MANDAR A GUARDAR PEDIDO"+transferencia.toString());
         Peticion peticionAgregarPlatillo = new Peticion(TipoAccion.REALIZAR_PEDIDO,pedidoCliente);
         ClienteAdmin conexion = new ClienteAdmin(peticionAgregarPlatillo);
         boolean respuestaServidor = (boolean) conexion.getRespuestaServer();
@@ -109,6 +109,7 @@ public class ResumenCompraCliente extends JFrame {
             etiquetaCostoPedido.setText("₡" + String.valueOf(pedidoCliente.getCosto()));
             etiquetaCaloriasTotales.setText(String.valueOf(pedidoCliente.getTotalCalorias() + " kcals"));
             etiquetaCostoAdicional.setText("₡" + String.valueOf(pedidoCliente.getCostoAdicional()));
+            pedi=pedidoCliente;
         }
     }
 }

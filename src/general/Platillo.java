@@ -1,5 +1,7 @@
 package general;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -136,8 +138,16 @@ public abstract class Platillo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Platillo platillo = (Platillo) o;
+        System.out.println("Platillo casteado"+platillo.toString());
         String nombre1 = getNombrePlatillo().toLowerCase();
         String nombre2 = platillo.getNombrePlatillo().toLowerCase();
-        return nombre1.equals(nombre2) || id.equals(((Platillo) o).getId());
+        try {
+            boolean n1 = nombre1.equals(nombre2);
+        }catch (Exception e){
+            System.out.println("ERROR EN EQUALS");
+            e.printStackTrace();
+            return false;
+        }
+        return nombre1.equals(nombre2);
     }
 }

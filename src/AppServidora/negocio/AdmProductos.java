@@ -35,11 +35,15 @@ public class AdmProductos{
         Platillo platillo = (Platillo) peti.getDatosEntrada();
         int contador=0;
         for (Platillo actual: platillos){
-            System.out.println("Actual: "+actual.toString());
-            if (platillo.equals(actual)){
+            System.out.println("Actual buscador: "+actual.toString());
+            System.out.println("Antes del equals");
+            boolean iguales =platillo.equals(actual);
+            System.out.println("IGUALES: "+iguales);
+            if (iguales){
                 System.out.println("Repetido: "+actual.toString()+"\n"+platillo.toString());
                 return contador;
             }
+            System.out.println("Despues del equals");
             contador++;
         }
         System.out.println("No se encontro ese platillo");
@@ -258,12 +262,16 @@ public class AdmProductos{
         Platillo tmp= null;
         int pos =0;//POSICION DEL PLATILLO EN EL ARRAY
         ArrayList<Platillo> tmpPlatillos = pedidoEntrante.getPlatillosPedidos();
+        System.out.println("Toma los platillos del pedido"+tmpPlatillos.toString());
         for (Platillo actual:tmpPlatillos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
             tmp = platillos.get(buscarPorCodigo(actual.getId()));
+
             tmp.aumentarPlatillo(pedidoEntrante.getCantidadPlatillosPedidos().get(pos));//aumenta en el total
             pos++;
         }
         pedidoEntrante.setFecha();
+        pedidoEntrante.setNumeroPedido();
+        System.out.println("Peticion editada: "+pedidoEntrante.toString());
 
         //Set costo
 
@@ -301,7 +309,6 @@ public class AdmProductos{
         }
         return tmp;
     }
-
     public ArrayList<Platillo> TopTenNuncaPedidos(){
         ArrayList<Platillo> tmp = new ArrayList<>();
         for (Platillo actual: platillos){
