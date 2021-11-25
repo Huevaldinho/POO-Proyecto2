@@ -195,6 +195,7 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
             dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
+            dtm.setValueAt(cte.getRutaImagen(),i,8);
         }
         return dtm;
     }

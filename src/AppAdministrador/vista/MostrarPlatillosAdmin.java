@@ -25,6 +25,7 @@ public class MostrarPlatillosAdmin extends JFrame {
     private JButton btnModificarPlatillo;
     private JButton btnEliminarPlatillo;
     private JButton actualizarTablaButton;
+    private JButton btnVerPlatillo;
 
     public MostrarPlatillosAdmin() {
         super("Platillos");
@@ -72,6 +73,39 @@ public class MostrarPlatillosAdmin extends JFrame {
                 ClienteAdmin conexion = new ClienteAdmin(peticion);
                 DefaultTableModel dtm = (DefaultTableModel) conexion.getRespuestaServer();
                 setTablaCatalogo(dtm);
+            }
+        });
+        btnVerPlatillo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String codigo;
+                String nombre;
+                String descripcion;
+                String tamanno;
+                String piezasXPorcion;
+                String caloriasXPorcion;
+                String caloriasXPieza;
+                String precio;
+                String ruta;
+                if (tablaPlatillos.getSelectedRow()==-1){
+                    JOptionPane.showMessageDialog(null,"Error al ver platillo, debe seleccionar una platillo",
+                            "Ha ocurrido un error, intente de nuevo",JOptionPane.ERROR_MESSAGE);
+                }else{
+                    int filaSeleccionada = tablaPlatillos.getSelectedRow();
+                    codigo=tablaPlatillos.getModel().getValueAt(filaSeleccionada,0).toString();
+                    nombre =tablaPlatillos.getModel().getValueAt(filaSeleccionada,1).toString();
+                    descripcion = tablaPlatillos.getModel().getValueAt(filaSeleccionada,2).toString();
+                    tamanno=tablaPlatillos.getModel().getValueAt(filaSeleccionada,3).toString();
+                    piezasXPorcion=tablaPlatillos.getModel().getValueAt(filaSeleccionada,4).toString();
+                    caloriasXPorcion=tablaPlatillos.getModel().getValueAt(filaSeleccionada,5).toString();
+                    caloriasXPieza=tablaPlatillos.getModel().getValueAt(filaSeleccionada,6).toString();
+                    precio=tablaPlatillos.getModel().getValueAt(filaSeleccionada,7).toString();
+                    ruta = tablaPlatillos.getModel().getValueAt(filaSeleccionada,8).toString();
+                    JFrame ventanaVerPlatillo = new VistaPlatillo(codigo,nombre,descripcion,tamanno,piezasXPorcion,
+                            caloriasXPorcion, caloriasXPieza,precio,ruta);
+                    ventanaVerPlatillo.setVisible(true);
+                }
+
             }
         });
     }
