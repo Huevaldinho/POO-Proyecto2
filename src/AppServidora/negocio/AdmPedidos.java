@@ -1,9 +1,6 @@
 package AppServidora.negocio;
 
-import general.Pedido;
-import general.PedidoExpress;
-import general.PedidoRecoger;
-import general.Platillo;
+import general.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -13,8 +10,8 @@ import java.util.ArrayList;
  * Descripcion: Clase especializada en administrar pedidos.
  */
 public class AdmPedidos {
-    public static double costoExtraEmpaque = 25;
-    public static double costoExtraEnvio = 2500;
+    private static double costoExtraEmpaque = 25;
+    private static double costoExtraEnvio = 2500;
     private AdmProductos amdProducts;
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     private int numeroPedido = 0;
@@ -22,31 +19,45 @@ public class AdmPedidos {
     public AdmPedidos() {
     }
 
-    public double[] calcularDesglose(ArrayList<Platillo> platillos, Pedido pedidoCliente) {
-        double precioPedido = 0;
-        double precioTotal = 0;
-        double caloriasTotales = 0;
-        for (Platillo i : platillos) {
-            precioPedido += i.getPrecio();
-            caloriasTotales += i.getCaloriasPorcion();
+    /**
+     * Metodo para calcular los valores del desglose del pedido
+     * @param peti: Peticion del cliente hacia el server
+     * @return Retorna el pedido actualizado
+     */
+    public Pedido calcularDesglose(Peticion peti) {
+        Pedido pedidoCliente = (Pedido) peti.getDatosEntrada();
+        double tmpPrecioPedido = 0;
+        double tmpCaloriasTotales = 0;
+        int pos = 0;
+        int cantidadTotalPlatillos = 0;
+        for (Platillo i : pedidoCliente.getPlatillosPedidos()) {
+            tmpPrecioPedido += i.getPrecio() * pedidoCliente.getCantidadPlatillosPedidos().get(pos);
+            tmpCaloriasTotales += i.getCaloriasPorcion() * pedidoCliente.getCantidadPlatillosPedidos().get(pos);
+            cantidadTotalPlatillos += pedidoCliente.getCantidadPlatillosPedidos().get(pos);
+            pos++;
         }
-        if (pedidoCliente instanceof Pedido) {
-            precioTotal += precioPedido;
-            double[] array = {precioTotal, precioPedido, caloriasTotales, 0};
-            return array;
-        } else if (pedidoCliente instanceof PedidoExpress) {
-            double costoExtra = (costoExtraEmpaque * platillos.size()) + costoExtraEnvio;
-            System.out.println(costoExtra);
-            precioTotal += precioPedido + costoExtra;
-            double[] array = {precioTotal, precioPedido, caloriasTotales, costoExtra};
-            return array;
+        pedidoCliente.setCosto(tmpPrecioPedido);
+        pedidoCliente.setTotalCalorias(tmpCaloriasTotales);
+        if (pedidoCliente.getClass() == Pedido.class) {
+            pedidoCliente.setCostoTotal(pedidoCliente.getCosto());
+            pedidoCliente.setCostoAdicional(0);
+            return pedidoCliente;
+        } else if (pedidoCliente.getClass() == PedidoExpress.class) {
+            pedidoCliente.setCostoAdicional(costoExtraEnvio + (cantidadTotalPlatillos * costoExtraEmpaque));
+            pedidoCliente.setCostoTotal(pedidoCliente.getCosto() + pedidoCliente.getCostoAdicional());
+            return pedidoCliente;
         } else { // PedidoRecoger
-            precioTotal += precioPedido + (costoExtraEmpaque * platillos.size());
-            double costoExtra = costoExtraEmpaque * platillos.size();
-            double[] array = {precioTotal, precioPedido, caloriasTotales, costoExtraEmpaque * platillos.size()};
-            return array;
+            pedidoCliente.setCostoAdicional((cantidadTotalPlatillos * costoExtraEmpaque));
+            pedidoCliente.setCostoTotal(pedidoCliente.getCosto() + pedidoCliente.getCostoAdicional());
+            return pedidoCliente;
         }
     }
+
+    /**
+     * Direcciona la peticion
+     * @param pedido: Objeto pedidod del cliente
+     * @return booleano
+     */
     public boolean realizarNuevoPedido(Pedido pedido){
         pedido = amdProducts.meterPedidoUsuario(pedido);
         //PEDIDO TRAE TODA LA INFO ACTUALIZADA
@@ -56,10 +67,20 @@ public class AdmPedidos {
 
         return true;
     }
+
+    /**
+     * Setea la instancia de la clase AdmProductos
+     * @param admin instancia previamente creada
+     */
     public void setAmdProducts(AdmProductos admin){
         this.amdProducts=admin;
         System.out.println(this.amdProducts);
     }
+
+    /**
+     * Genera la tabla de los productos Top Ten mas pedidos
+     * @return
+     */
     public DefaultTableModel modeloTablaTopTen(){
         ArrayList<Platillo> ordenado = amdProducts.TopTenMasPedidos();
         //HACER TABLA
@@ -77,6 +98,11 @@ public class AdmPedidos {
         }
         return dtm;
     }
+
+    /**
+     * Genera la tabla de los productos nunca solicitados
+     * @return
+     */
     public DefaultTableModel modeloTablaNuncaOrdenados(){
         ArrayList<Platillo> nuncaPedidos = amdProducts.TopTenNuncaPedidos();
         //HACER TABLA

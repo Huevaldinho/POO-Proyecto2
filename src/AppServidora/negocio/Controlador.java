@@ -75,8 +75,12 @@ public class Controlador {
                 peticionRecibida.setDatosSalida(admProducts.generarCarritoCompras(peticionRecibida));
                 break;
             }
+            case GUARDAR_PEDIDO: {
+                peticionRecibida.setDatosSalida(admProducts.guardarPlatillosCantidades(peticionRecibida));
+                break;
+            }
             case DESGLOSE_PEDIDO: {
-                peticionRecibida.setDatosSalida(admProducts.extraerProductosPedido(peticionRecibida));
+                peticionRecibida.setDatosSalida(admPedidos.calcularDesglose(peticionRecibida));
                 break;
             }
         }

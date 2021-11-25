@@ -18,6 +18,10 @@ public class AdmArchivosBinarios implements  Serializable{
     public AdmArchivosBinarios() {
     }
 
+    /**
+     * Metodo para guardar el archivo binario que contiene el array list de los platillos
+     * @param arrayListPlatillos: array de platillos en memoria
+     */
     public void insertarPlatillo(ArrayList<Platillo> arrayListPlatillos){
         archivo = new File("ArchivosBinarios/Platos.dat");
         if (!archivo.exists()) {

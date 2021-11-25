@@ -15,6 +15,21 @@ public abstract class Platillo implements Serializable {
     protected int caloriasPieza;
     protected  int cantidadDeVecesSolicitado;
 
+    public Platillo(){}
+
+    public Platillo(Platillo plati) {
+        this.nombrePlatillo = plati.getNombrePlatillo();
+        this.rutaImagen = plati.getRutaImagen();
+        this.id = plati.getId();
+        this.precio = plati.getPrecio();
+        this.descripcion = plati.getDescripcion();
+        this.tamannoPorcion = plati.getTamanoPorcion();
+        this.piezasPorcion = plati.getPiezasPorcion();
+        this.caloriasPorcion = plati.getCaloriasPorcion();
+        this.caloriasPieza = plati.getCaloriarPieza();
+
+    }
+
     public String getNombrePlatillo() {
         return nombrePlatillo;
     }
@@ -36,9 +51,11 @@ public abstract class Platillo implements Serializable {
     }
 
     public abstract void setId();
+
     public void setIdModificado(String modi){
         this.id=modi;
     }
+
     public Double getPrecio() {
         return precio;
     }
@@ -86,15 +103,19 @@ public abstract class Platillo implements Serializable {
     public void setCaloriarPieza(int caloriarPieza) {
         this.caloriasPieza = caloriarPieza;
     }
+
     public int getCantidadDeVecesSolicitado(){
         return cantidadDeVecesSolicitado;
     }
+
     public void setCantidadDeVecesSolicitado(int cantidad){
         cantidadDeVecesSolicitado=cantidad;
     }
+
     public void aumentarPlatillo(int cantidad){
         cantidadDeVecesSolicitado+=cantidad;
     }
+
     @Override
     public String toString() {
         return "Platillo{" +
@@ -116,21 +137,7 @@ public abstract class Platillo implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Platillo platillo = (Platillo) o;
         String nombre1 = getNombrePlatillo().toLowerCase();
-        String nombre2 = ((Platillo) o).getNombrePlatillo().toLowerCase();
-
+        String nombre2 = platillo.getNombrePlatillo().toLowerCase();
         return nombre1.equals(nombre2) || id.equals(((Platillo) o).getId());
-    }
-    public Platillo(){}
-    public Platillo(Platillo plati) {
-        this.nombrePlatillo = plati.getNombrePlatillo();
-        this.rutaImagen = plati.getRutaImagen();
-        this.id = plati.getId();
-        this.precio = plati.getPrecio();
-        this.descripcion = plati.getDescripcion();
-        this.tamannoPorcion = plati.getTamanoPorcion();
-        this.piezasPorcion = plati.getPiezasPorcion();
-        this.caloriasPorcion = plati.getCaloriasPorcion();
-        this.caloriasPieza = plati.getCaloriarPieza();
-
     }
 }

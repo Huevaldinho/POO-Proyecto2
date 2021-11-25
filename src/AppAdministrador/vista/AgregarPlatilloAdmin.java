@@ -41,6 +41,7 @@ public class AgregarPlatilloAdmin extends JFrame {
         setContentPane(panel);
         setResizable(false);
         this.pack();
+
         btnAceptar.addActionListener(new ActionListener() {//BOTON ACEPTAR, CREAR PLATILLO
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,6 +52,7 @@ public class AgregarPlatilloAdmin extends JFrame {
                 }
             }
         });
+
         btnBuscarImagen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {//BUSCAR IMAGEN EN DIRECTORIO
@@ -64,15 +66,32 @@ public class AgregarPlatilloAdmin extends JFrame {
                 if (showOpenDialogue == JFileChooser.APPROVE_OPTION){
 
                     File selectedImageFile = browseImageFile.getSelectedFile();
-                    String selectedImagePath = selectedImageFile.getAbsolutePath();
-                    pathImagenSeleccionada = selectedImagePath;
+                    String selectedImagePath = selectedImageFile.getPath();
+                    String[] trozos = selectedImagePath.split("\\\\");
+                    String busqueda = "POO-Proyecto2";
+                    String relativePath = "";
+                    boolean bandera = false;
+                    for (int i = 0; i < trozos.length; i++) {
+                        String temporal = trozos[i];
+                        if (temporal.equals(busqueda) || bandera) {
+                            bandera = true;
+                            if (i == trozos.length - 1) {
+                                relativePath += temporal;
+                            } else {
+                                relativePath += temporal + "\\";
+                            }
+                        }
+                    }
+                    pathImagenSeleccionada = relativePath;
+                    System.out.println(pathImagenSeleccionada);
                     //QUITAR JOPtionPane
-                    JOptionPane.showMessageDialog(null,selectedImagePath);
+                    JOptionPane.showMessageDialog(null,pathImagenSeleccionada);
                 }
 
             }
         });
     }
+
     public boolean validarDatos(){
         int piezasPorPorcion;
         int caloriasPorPorcion;
@@ -96,7 +115,7 @@ public class AgregarPlatilloAdmin extends JFrame {
         Platillo nuevoPlatillo;
         switch (tipoPlatillo) { // switch para crear objeto correspondiente
             case 0: {
-                Entrada platillo = new Entrada(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                Entrada platillo = new Entrada(txtNombrePlatillo.getText(), this.pathImagenSeleccionada, precio,
                         txtDescripcion.getText(),
                         txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
                         caloriasPorPorcion, caloriasPorPieza);
@@ -104,7 +123,7 @@ public class AgregarPlatilloAdmin extends JFrame {
                 break;
             }
             case 1: {
-                PlatoFuerte platillo = new PlatoFuerte(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                PlatoFuerte platillo = new PlatoFuerte(txtNombrePlatillo.getText(), this.pathImagenSeleccionada, precio,
                         txtDescripcion.getText(),
                         txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
                         caloriasPorPorcion, caloriasPorPieza);
@@ -112,7 +131,7 @@ public class AgregarPlatilloAdmin extends JFrame {
                 break;
             }
             case 2: {
-                Postre platillo = new Postre(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                Postre platillo = new Postre(txtNombrePlatillo.getText(), this.pathImagenSeleccionada, precio,
                         txtDescripcion.getText(),
                         txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
                         caloriasPorPorcion, caloriasPorPieza);
@@ -120,7 +139,7 @@ public class AgregarPlatilloAdmin extends JFrame {
                 break;
             }
             case 3: {
-                Bebida platillo = new Bebida(txtNombrePlatillo.getText(), pathImagenSeleccionada, precio,
+                Bebida platillo = new Bebida(txtNombrePlatillo.getText(), this.pathImagenSeleccionada, precio,
                         txtDescripcion.getText(),
                         txtTamanno.getText() + " " + comboboxMedida.getSelectedItem(), piezasPorPorcion,
                         caloriasPorPorcion, caloriasPorPieza);

@@ -45,6 +45,7 @@ public class AdmProductos{
         System.out.println("No se encontro ese platillo");
         return -1;
     }
+
     public int buscarPorCodigo(String codigo){
         int contador=0;
         for (Platillo actual:platillos){
@@ -54,6 +55,7 @@ public class AdmProductos{
         }
         return -1;
     }
+
     /**
      * @author: Felipe Obando, Sebastian Arroniz y Sebastian Bermudez
      * @param peti: Peticion para insertar platillo
@@ -138,7 +140,7 @@ public class AdmProductos{
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
             //ImageIcon imagen = new ImageIcon(cte.getRutaImagen());
             //if (imagen != null)
-                //dtm.setValueAt(imagen, i, 8);
+            //dtm.setValueAt(new JLabel(new ImageIcon(getClass().getResource(cte.getRutaImagen()))), i, 8);
             dtm.setValueAt("0", i, 9);
         }
         return dtm;
@@ -231,31 +233,15 @@ public class AdmProductos{
     }
 
     /**
-     * Metodo para extraer los productos del carrito de compras
-     * @param peti: Es la peticion del cliente hacia el servidor
-     * @return retorna un array de datos double
+     * Metodo para almacenar cantidades y platillos en el objeto del pedido del cliente
+     * @param peti: Peticion por parte del cliente hacia el servidor
+     * @return retorna el pedido modificado
      */
-    public double[] extraerProductosPedido(Peticion peti) {
-        ArrayList<Platillo> platillosSeleccionados = new ArrayList<>();
-        ArrayList<Object> transferencia = (ArrayList<Object>) peti.getDatosEntrada();
-        ArrayList<String> listaId = (ArrayList<String>) transferencia.get(0);
-        Pedido tipoPedido = (Pedido) transferencia.get(1);
-        for (String i : listaId) {
-            for (Platillo j : platillos) {
-                if (i.equals(j.getId())) {
-                    platillosSeleccionados.add(j);
-                }
-            }
-        }
-
-        return admPedidos.calcularDesglose(platillosSeleccionados, tipoPedido);
-    }
-    public void guardarPlatillosCantidades(Object pedidoEntrante){
-        ArrayList<Object> pedido;
-        pedido= (ArrayList<Object>) pedidoEntrante;
-        ArrayList<String> platosPedidos = (ArrayList<String>) pedido.get(0);//SACA LOS CODIGOS
-        ArrayList<Integer> cantidadVecesPedido = (ArrayList<Integer>) pedido.get(2);//SACA LA CANTIDAD  DE PLATILLOS
-        Pedido pedidoSolo = (Pedido) pedido.get(1);
+    public Pedido guardarPlatillosCantidades(Peticion peti){
+        ArrayList<Object> transferencia = (ArrayList<Object>) peti.getDatosEntrada(); // extrae la transferencia
+        ArrayList<String> platosPedidos = (ArrayList<String>) transferencia.get(0);//SACA LOS CODIGOS
+        ArrayList<Integer> cantidadVecesPedido = (ArrayList<Integer>) transferencia.get(2);//SACA LA CANTIDAD  DE PLATILLOS
+        Pedido pedidoSolo = (Pedido) transferencia.get(1);
         Platillo tmp=null;
         ArrayList<Platillo> tmpPlatillos = new ArrayList<>();
         for (String actual:platosPedidos){//AUMENTA LA CANTIDAD DE VECES UQE SE PIDIO ESE PLATILLOS
@@ -264,7 +250,9 @@ public class AdmProductos{
         }
         pedidoSolo.setCantidadPlatillosPedidos(cantidadVecesPedido);
         pedidoSolo.setPlatillosPedidos(tmpPlatillos);
+        return pedidoSolo;
     }
+
     public Pedido meterPedidoUsuario(Pedido pedidoEntrante){
 
         Platillo tmp= null;
@@ -283,11 +271,14 @@ public class AdmProductos{
 
         return pedidoEntrante;
     }
+
     //Consultas
+
     public ArrayList<Platillo> TopTenMasPedidos(){
         ArrayList<Platillo> ordenados= selectionSort();
         return ordenados;
     }
+
     public ArrayList<Platillo> selectionSort() {
         int size = platillos.size();
         ArrayList<Platillo> tmp = platillos;
@@ -310,6 +301,7 @@ public class AdmProductos{
         }
         return tmp;
     }
+
     public ArrayList<Platillo> TopTenNuncaPedidos(){
         ArrayList<Platillo> tmp = new ArrayList<>();
         for (Platillo actual: platillos){

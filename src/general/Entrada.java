@@ -4,7 +4,7 @@ import static AppServidora.negocio.AdmProductos.CONTADOR_BEB;
 import static AppServidora.negocio.AdmProductos.CONTADOR_ENT;
 
 public class Entrada extends Platillo{
-    public Entrada(String nombrePlatillo, String rutaImapathgen, Double precio, String descripcion, String tamannoPorcion,
+    public Entrada(String nombrePlatillo, String rutaImagen, Double precio, String descripcion, String tamannoPorcion,
                    int piezasPorcion, int caloriasPorcion, int caloriasPieza) {
         super.nombrePlatillo = nombrePlatillo;
         super.rutaImagen = rutaImagen;
