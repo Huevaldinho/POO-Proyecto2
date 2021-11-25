@@ -265,28 +265,49 @@ public class AdmProductos{
             pos++;
         }
         Pedido pedidoSolo = (Pedido) pedido.get(1);
-        System.out.println("PEDIDO PURO: "+pedidoSolo);
         pedidoSolo.setFecha();
+        //Set costo
 
         admArchivos.insertarPlatillo(platillos);//TIENE QUE GUARDAR EL ARCHIVO OTRA VEZ
         pedido.set(0,platosPedidos);
         pedido.set(1,pedidoSolo);
         pedido.set(2,cantidadVecesPedido);
+
         return pedido;
     }
     //Consultas
     public ArrayList<Platillo> TopTenMasPedidos(){
-        ArrayList<Platillo> ordenados= platillos;
-        //Ordenar
-        return null;
+        ArrayList<Platillo> ordenados= selectionSort();
+        return ordenados;
+    }
+    public ArrayList<Platillo> selectionSort() {
+        int size = platillos.size();
+        ArrayList<Platillo> tmp = platillos;
+        for (int step = 0; step < size - 1; step++) {
+            int min_idx = step;
+            for (int i = step + 1; i < size; i++) {
+                // To sort in descending order, change > to < in this line.
+                // Select the minimum element in each loop.
+                if (tmp.get(i).getCantidadDeVecesSolicitado()>tmp.get(min_idx).getCantidadDeVecesSolicitado()) {
+                    min_idx = i;
+                }
+            }
+            // put min at the correct position
+            Platillo tmpPlatillo = tmp.get(step);
+            //int temp = array[step];
+            tmp.set(step,tmp.get(min_idx));
+            //array[step] = array[min_idx];
+            tmp.set(min_idx,tmpPlatillo);
+            //array[min_idx] = temp;
+        }
+        return tmp;
     }
     public ArrayList<Platillo> TopTenNuncaPedidos(){
-        return null;
-    }
-    public ArrayList<Integer> RelacionPorcentualTipoDePedido(){
-        //express
-        //sitio
-        //recoger
-        return null;
+        ArrayList<Platillo> tmp = new ArrayList<>();
+        for (Platillo actual: platillos){
+            if (actual.getCantidadDeVecesSolicitado()==0)
+                tmp.add(actual);
+        }
+        return tmp;
     }
 }

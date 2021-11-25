@@ -5,6 +5,7 @@ import general.PedidoExpress;
 import general.PedidoRecoger;
 import general.Platillo;
 
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 
 /**
@@ -60,5 +61,39 @@ public class AdmPedidos {
         this.amdProducts=admin;
         System.out.println(this.amdProducts);
     }
+    public DefaultTableModel modeloTablaTopTen(){
+        ArrayList<Platillo> ordenado = amdProducts.TopTenMasPedidos();
+        //HACER TABLA
+        String[] encabezado = {"Codigo","Nombre","Descripcion","Categoria"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, ordenado.size());
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Platillo cte = (Platillo) ordenado.get(i);
+
+            dtm.setValueAt(cte.getId(), i, 0);
+            dtm.setValueAt(cte.getNombrePlatillo(),i,1);
+            dtm.setValueAt(cte.getDescripcion(),i,2);
+
+            //FALTA CATEGORIA
+
+        }
+        return dtm;
+    }
+    public DefaultTableModel modeloTablaNuncaOrdenados(){
+        ArrayList<Platillo> nuncaPedidos = amdProducts.TopTenNuncaPedidos();
+        //HACER TABLA
+        String[] encabezado = {"Codigo","Nombre","Categoria"};
+        DefaultTableModel dtm = new DefaultTableModel(encabezado, nuncaPedidos.size());
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            Platillo cte = (Platillo) nuncaPedidos.get(i);
+            dtm.setValueAt(cte.getId(), i, 0);
+            dtm.setValueAt(cte.getNombrePlatillo(),i,1);
+            dtm.setValueAt(cte.getDescripcion(),i,2);
+
+            //FALTA CATEGORIA
+
+        }
+        return dtm;
+    }
+    //FALTA LA VARA DE PORCENTAJES
 
 }

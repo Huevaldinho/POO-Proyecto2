@@ -86,6 +86,9 @@ public abstract class Platillo implements Serializable {
     public void setCaloriarPieza(int caloriarPieza) {
         this.caloriasPieza = caloriarPieza;
     }
+    public int getCantidadDeVecesSolicitado(){
+        return cantidadDeVecesSolicitado;
+    }
     public void aumentarPlatillo(int cantidad){
         cantidadDeVecesSolicitado+=cantidad;
     }
