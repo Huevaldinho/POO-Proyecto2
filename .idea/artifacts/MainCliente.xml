@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/MainCliente</output-path>
     <root id="archive" name="Proyecto2.jar">
       <element id="module-output" name="Proyecto2" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Librerias/jcommon-1.0.23.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Librerias/jfreechart-1.0.19.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

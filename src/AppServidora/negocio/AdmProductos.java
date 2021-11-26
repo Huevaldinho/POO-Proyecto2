@@ -142,9 +142,7 @@ public class AdmProductos{
             dtm.setValueAt(cte.getCaloriasPorcion() + " kcals", i, 5);
             dtm.setValueAt(cte.getCaloriarPieza() + " kcals", i, 6);
             dtm.setValueAt("₡" + cte.getPrecio(), i, 7);
-            //ImageIcon imagen = new ImageIcon(cte.getRutaImagen());
-            //if (imagen != null)
-            //dtm.setValueAt(new JLabel(new ImageIcon(getClass().getResource(cte.getRutaImagen()))), i, 8);
+            dtm.setValueAt(cte.getRutaImagen(), i, 8);
             dtm.setValueAt("0", i, 9);
         }
         return dtm;

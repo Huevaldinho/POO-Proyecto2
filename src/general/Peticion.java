@@ -3,6 +3,9 @@ package general;
 import java.io.Serializable;
 
 
+/**
+ * Modelo de una peticion para ser enviada al server o al cliente
+ */
 public class Peticion implements Serializable{
     
     private TipoAccion accion;

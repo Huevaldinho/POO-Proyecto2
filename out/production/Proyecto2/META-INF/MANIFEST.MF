@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: AppAdministrador.conexion.ClienteAdmin
+Main-Class: AppCliente.vista.mainCte
 

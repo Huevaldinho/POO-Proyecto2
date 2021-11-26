@@ -140,7 +140,6 @@ public class VentanaPrincipalCliente extends JFrame {
     }
 
     public void setTablaCatalogo(DefaultTableModel catalogo) {
-        tablaCatalogo.setDefaultRenderer(Object.class, new ImgTabla());
         tablaCatalogo.setModel(catalogo);
     }
 }

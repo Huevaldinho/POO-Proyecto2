@@ -53,7 +53,7 @@ public class InformeProductosAdmin extends JFrame {
         botonRelacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Peticion peti = new Peticion(TipoAccion.GENERAR_TABLA_NUNCA_SOLICITADOS, null);
+                Peticion peti = new Peticion(TipoAccion.GENERAR_PIECHART_TIPOLUGAR, null);
                 ClienteAdmin conexion = new ClienteAdmin(peti);
                 PieChart pch = new PieChart("Relación entre lugares de pedido", (double[]) conexion.getRespuestaServer());
                 pch.setSize( 560 , 367 );
